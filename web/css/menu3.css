@@ -1,0 +1,30 @@
+#menus {
+    border:none;
+    margin: 0;
+    font: 11px Arial, sans-serif;
+}
+#menus li {
+    list-style: none; 
+    margin: 0;
+    display: inline;
+}
+#menus li a {
+    height:1px; /* IE5.0 bug */
+    padding: 3px 3px; 
+    margin:0;
+    border: 1px solid #f00; 
+    background: #999;
+    text-decoration: none;
+}
+#menus li a:link {
+    color: #fff;
+}
+#menus li a:visited {
+    color: #fff;
+}
+#menus li a:hover {
+    background: #ccc;
+    color: #000; 
+    border-color: #000;
+}
+
