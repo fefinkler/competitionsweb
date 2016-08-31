@@ -12,6 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <%@include file ="menu.jsp" %>
         <h1>Sucesso!</h1>
         
         <%
@@ -20,6 +21,6 @@
             
         <a href='<%=pagina %>'>Volta para o cadastro</a>
         <br>
-        <a href='index.jsp'>Volta para o Início</a>
+        <a href='menu.jsp'>Volta para o Início</a>
     </body>
 </html>

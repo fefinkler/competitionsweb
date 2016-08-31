@@ -16,7 +16,7 @@
     </head>
     <body>
 
-        <table border="1">
+        <table border="0">
             <tr>
                 <td>ID</td>
                 <td>Nome</td>
@@ -31,8 +31,8 @@
             <tr>
                 <td><%=m.getIdModalidades()%></td>
                 <td><%=m.getNome()%></td>
-                <td><a href="/CompetitionsWEB/controlador?parametro=editar&id=<%=m.getIdModalidades()%>">Editar</a></td>
-                <td><a href="/CompetitionsWEB/controlador?parametro=excluir&id=<%=m.getIdModalidades()%>">Excluir</a></td>
+                <td><a href="/CompetitionsWEB/controlador?parametro=editarModalidade&id=<%=m.getIdModalidades()%>">Editar</a></td>
+                <td><a href="/CompetitionsWEB/controlador?parametro=excluirModalidade&id=<%=m.getIdModalidades()%>">Excluir</a></td>
             </tr>
             <%
                 }

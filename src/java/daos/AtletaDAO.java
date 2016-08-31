@@ -350,5 +350,18 @@ public class AtletaDAO implements IDAO {
         }
         return qtde;
     }
+    
+    public boolean podeAcessar(String login, String senha) {
+        try {
+            String sql = "SELECT * FROM atleta WHERE login = '" + login + "' AND senha = '" + senha + "';";
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            if (resultado.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao validar acesso de usuário: " + e);
+        }
+        return false;
+    }
 
 }

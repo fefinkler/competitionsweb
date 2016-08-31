@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import daos.AtletaDAO;
 import daos.ModalidadesDAO;
 import entidades.Modalidades;
 import java.io.IOException;
@@ -64,8 +65,14 @@ public class controlador extends HttpServlet {
             throws ServletException, IOException {
         //    processRequest(request, response);
         System.out.println("GGEEEEETTTTTTTTTTTT");
-        String parametro = request.getParameter("bola");
-        System.out.println("Valor de bola: " + parametro);
+//        String parametro = request.getParameter("bola");
+//        System.out.println("Valor de bola: " + parametro);
+        requisicao = request;
+        resposta = response;
+        
+        if (request.getParameter("parametro").equals("editarModalidade")){
+            editarModalidade();
+        }
     }
 
     /**
@@ -80,44 +87,66 @@ public class controlador extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-
+        System.out.println("entrou no doPost");
         requisicao = request;
         resposta = response;
 
-        if (request.getParameter("acao").equals("cadastraModalidade")) {
+        if (request.getParameter("parametro").equals("cadastraModalidade")) {
             cadastrarModalidade();
-//            PrintWriter out = response.getWriter();
 
-        } else if (request.getParameter("acao").equals("cadastraTiposDespesas")) {
+        } else if (request.getParameter("parametro").equals("cadastraTiposDespesas")) {
             //cadastraTiposDespesas();
-        } else if (request.getParameter("parametro").equals("login")) {
             
-        }
-        else {
+        } else if (requisicao.getParameter("parametro").equals("login")) {
+            validarLogin();
+        } else {
             System.out.println("veio pelo Request = " + request.getParameter("a"));
         }
 
     }
     
     private void validarLogin (){
-        String nome = requisicao.getParameter("login");
+        String login = requisicao.getParameter("login");
         String senha = requisicao.getParameter("senha");
+        
+        if (new AtletaDAO().podeAcessar(login, senha)) {
+            encaminharPagina("menu.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
     }
 
     private void cadastrarModalidade() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
         String nome = requisicao.getParameter("nome");
         System.out.println("Nome digitado: " + nome);
 
         Modalidades m = new Modalidades();
+        m.setIdModalidades(id);
         m.setNome(nome);
 
-        String retorno = new ModalidadesDAO().salvar(m);
+        String retorno;
+        if (m.getIdModalidades() == 0){
+            retorno = new ModalidadesDAO().salvar(m);
+        } else {
+            retorno = new ModalidadesDAO().atualizar(m);
+        }
 
         if (retorno == null) {
             requisicao.setAttribute("paginaretorno", "cadastroModalidades.jsp");
             encaminharPagina("sucesso.jsp");
         } else {
             encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void editarModalidade() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        Modalidades m = (Modalidades) new ModalidadesDAO().consultarId(id);
+        
+        if (m != null){
+            requisicao.setAttribute("modalidade", m);
+            encaminharPagina("cadastroModalidaade.jsp");
         }
     }
 

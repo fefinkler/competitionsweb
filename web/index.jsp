@@ -9,24 +9,23 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!--<link href="css/login.css" rel="stylesheet" type="text/css" />-->
+        <link href="boots/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="boots/css/signin.css" rel="stylesheet" type="text/css" />
+
         <title>Competitions WEB</title>
     </head>
-    
-        
-    <body>
-        <h1>Bem-vindo ao Team Manager Tool</h1>
-        
-        <form method="post" actions="/CompetitionsWEB/acao?parametro=login">
-            <label> Usuário</label>
-            <input type="text" name="login">
-            <br>
-            <label>Senha</label>
-            <input type="password" name="senha">
-            <br>
-            <input type="submit" value="Acessar">
-        </form>
-        
-        
-        
-    </body>
+
+        <div class="container">
+            <form method="post" action="/CompetitionsWEB/controlador?parametro=login" class="form-signin">
+                <h2 class="form-signin-heading">Team Manager Tool</h2>
+                <label> Usuário</label>
+                <input type="text" name="login" class="form-control">
+                <br>
+                <label>Senha</label>
+                <input type="password" name="senha" class="form-control">
+                <br>
+                <input type="submit" value="Acessar" class="btn btn-lg btn-primary btn-block">
+            </form>
+        </div>
 </html>

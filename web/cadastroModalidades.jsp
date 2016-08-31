@@ -16,9 +16,17 @@
         <br>
         <h1>Cadastro de Modalidades</h1>
 
-        <form action="/CompetitionsWEB/controlador?acao=cadastraModalidade" method="post">
+        <%
+            Modalidades m = (Modalidades) request.getAttribute("modalidade");
+            if (m == null) {
+                m = new Modalidades();
+            }
+        %>
+
+        <form action="/CompetitionsWEB/controlador?parametro=cadastraModalidade" method="post">
+            <input type="hidden" name="id" value="<%=m.getIdModalidades()%>">
             <label>Nome:&nbsp;</label>
-            <input type="text" name="nome"> &nbsp;
+            <input type="text" name="nome" value="<%=m.getNome()%>"> &nbsp;
             <input type="submit" value="Salvar">
         </form>
         <BR>
