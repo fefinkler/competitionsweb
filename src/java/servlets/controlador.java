@@ -118,12 +118,13 @@ public class controlador extends HttpServlet {
 
     private void cadastrarModalidade() {
         int id = Integer.parseInt(requisicao.getParameter("id"));
-        String nome = requisicao.getParameter("nome");
-        System.out.println("Nome digitado: " + nome);
+        String nome = requisicao.getParameter("nome");       
+        boolean ativo = Boolean.parseBoolean(requisicao.getParameter("ativo"));
 
         Modalidades m = new Modalidades();
         m.setIdModalidades(id);
         m.setNome(nome);
+        m.setAtivo(ativo);
 
         String retorno;
         if (m.getIdModalidades() == 0){
@@ -146,7 +147,7 @@ public class controlador extends HttpServlet {
         
         if (m != null){
             requisicao.setAttribute("modalidade", m);
-            encaminharPagina("cadastroModalidaade.jsp");
+            encaminharPagina("cadastroModalidades.jsp");
         }
     }
 

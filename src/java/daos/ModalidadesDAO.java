@@ -28,7 +28,7 @@ public class ModalidadesDAO implements IDAO {
     public String salvar(Object o) {
         Modalidades m = (Modalidades) o;
         try {
-            String sql = "INSERT INTO modalidades VALUES (default, '" + m.getNome() + "')";
+            String sql = "INSERT INTO modalidades VALUES (default, '" + m.getNome() + "', " + m.isAtivo() + ")";
            int retorno = ConexaoBD.getInstance().getConnection().createStatement().executeUpdate(sql);
         } catch (Exception e) {
             System.out.println("Erro ao salvar Modalidade: " + e);
@@ -96,6 +96,7 @@ public class ModalidadesDAO implements IDAO {
                 Modalidades m = new Modalidades();
                 m.setIdModalidades(resultado.getInt("idmodalidades"));
                 m.setNome(resultado.getString("nome"));
+                m.setAtivo(resultado.getBoolean("ativo"));
                 modalidades.add(m);
             }
         } catch (Exception e) {

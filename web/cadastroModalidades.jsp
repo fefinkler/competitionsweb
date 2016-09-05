@@ -4,6 +4,7 @@
     Author     : Fernanda Finkler
 --%>
 
+<%@page import="entidades.Modalidades"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -24,11 +25,26 @@
         %>
 
         <form action="/CompetitionsWEB/controlador?parametro=cadastraModalidade" method="post">
-            <input type="hidden" name="id" value="<%=m.getIdModalidades()%>">
-            <label>Nome:&nbsp;</label>
-            <input type="text" name="nome" value="<%=m.getNome()%>"> &nbsp;
+            <input type="hidden" name="id" value="<%= m.getIdModalidades()%>">
+
+            <label>Nome:</label>&nbsp;
+            <input type="text" name="nome" value="<%= m.getNome()%>"> &nbsp;
+
+            <%
+              if (m.isAtivo()) {
+            %>
+            <input type="checkbox" name="ativo" value="ativo" checked>&nbsp;Ativo&nbsp;&nbsp;
+            <%
+            } else {
+            %>
+            <input type="checkbox" name="ativo" value="ativo">&nbsp;Ativo&nbsp;&nbsp;
+            <%
+                }
+            %>
             <input type="submit" value="Salvar">
+
         </form>
+
         <BR>
         <%@include file ="listaModalidades.jsp" %>
 
