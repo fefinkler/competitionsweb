@@ -78,7 +78,22 @@ public class TiposDespesasDAO implements IDAO {
 
     @Override
     public ArrayList<Object> consultarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Object> tipos = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM tipo_despesas ORDER BY idtipo_despesas";
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            
+            while (resultado.next()){
+                TiposDespesas td = new TiposDespesas();
+                td.setIdTiposDespesas(resultado.getInt("idtipo_despesas"));
+                td.setNome(resultado.getString("nome"));
+                td.setAtivo(resultado.getBoolean("ativo"));
+                tipos.add(td);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consulta todos Tipos Despesas: " + e);
+        }
+        return tipos;
     }
 
     @Override

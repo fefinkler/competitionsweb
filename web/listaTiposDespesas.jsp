@@ -1,11 +1,11 @@
 <%-- 
-    Document   : listaModalidades
-    Created on : 15/08/2016, 20:38:15
+    Document   : listaTiposDespesas
+    Created on : 05/09/2016, 21:17:20
     Author     : Fernanda Finkler
 --%>
 
-<%@page import="entidades.Modalidades"%>
-<%@page import="daos.ModalidadesDAO"%>
+<%@page import="entidades.TiposDespesas"%>
+<%@page import="daos.TiposDespesasDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,22 +25,22 @@
                     <td>Excluir</td>
                 </tr>
                 <%
-                    ArrayList<Object> modalidades = new ModalidadesDAO().consultarTodos();
-                    for (int i = 0; i < modalidades.size(); i++) {
-                        Modalidades modalidade = (Modalidades) modalidades.get(i);
+                    ArrayList<Object> tipos = new TiposDespesasDAO().consultarTodos();
+                    for (int i = 0; i < tipos.size(); i++) {
+                        TiposDespesas tipodespesa = (TiposDespesas) tipos.get(i);
                         String ativo;
-                        if (modalidade.isAtivo()){
+                        if (tipodespesa.isAtivo()){
                             ativo = "Sim";
                         } else {
                             ativo = "Não";
                         }
                 %>
                 <tr>
-                    <td><%=modalidade.getIdModalidades()%></td>
-                    <td><%=modalidade.getNome()%></td>
+                    <td><%=tipodespesa.getIdTiposDespesas()%></td>
+                    <td><%=tipodespesa.getNome()%></td>
                     <td><%= ativo %></td>
-                    <td><a href="/CompetitionsWEB/controlador?parametro=editarModalidade&id=<%=modalidade.getIdModalidades()%>">Editar</a></td>
-                    <td><a OnClick="return confirm('Confirma exclusão?')" href="/CompetitionsWEB/controlador?parametro=excluirModalidade&id=<%=modalidade.getIdModalidades()%>">Excluir</a></td>
+                    <td><a href="/CompetitionsWEB/controlador?parametro=editarTipoDespesa&id=<%=tipodespesa.getIdTiposDespesas()%>">Editar</a></td>
+                    <td><a OnClick="return confirm('Confirma exclusão?')" href="/CompetitionsWEB/controlador?parametro=excluirTipoDespesa&id=<%=tipodespesa.getIdTiposDespesas()%>">Excluir</a></td>
                 </tr>
                 <%
                     }

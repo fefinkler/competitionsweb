@@ -86,7 +86,23 @@ public class PaisDAO implements IDAO {
 
     @Override
     public ArrayList<Object> consultarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Object> paises = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM pais ORDER BY idpais";
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            
+            while (resultado.next()){
+                Pais p = new Pais();
+                p.setIdpais(resultado.getInt("idpais"));
+                p.setNome(resultado.getString("nome"));
+                p.setSigla(resultado.getString("sigla"));
+                p.setAtivo(resultado.getBoolean("ativo"));
+                paises.add(p);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consulta todas modalidades: " + e);
+        }
+        return paises;
     }
 
     @Override

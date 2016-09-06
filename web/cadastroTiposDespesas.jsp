@@ -4,6 +4,7 @@
     Author     : Fernanda Finkler
 --%>
 
+<%@page import="entidades.TiposDespesas"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,20 +15,27 @@
     <body>
         <%@include file ="menu.jsp" %>
         <br>
-        <h1>Cadastro de Locais</h1>
+        <h1>Cadastro de Tipos de Despesas</h1>
 
-        <form action="/CompetitionsWEB/controlador?parametro=cadastraLocal" method="post">
-            <label>Nome:&nbsp;</label>
-            <input type="text" name="nome">
-            <br>
-            <label>Sigla:&nbsp;</label>
-            <input type="text" name="sigla">
-            <br>
-            <label>Ativo:&nbsp;</label>
-            <%--<input type="text" name="ativo">--%>
-            <br>
+        <%
+            TiposDespesas td = (TiposDespesas) request.getAttribute("tipodespesa");
+            if (td == null) {
+                td = new TiposDespesas();
+            }
+        %>
+
+        <form action="/CompetitionsWEB/controlador?parametro=cadastraTipoDespesa" method="post">
+            <input type="hidden" name="id" value="<%= td.getIdTiposDespesas()%>">
+
+            <label>Nome:</label>&nbsp;
+            <input type="text" name="nome" value="<%= td.getNome()%>"> &nbsp;
+            <input type="checkbox" name="ativo" <%=td.isAtivo() ? "checked" : ""%>> Ativo &nbsp;
             <input type="submit" value="Salvar">
+
         </form>
+
+        <BR>
+        <%@include file ="listaTiposDespesas.jsp" %>
 
     </body>
 </html>

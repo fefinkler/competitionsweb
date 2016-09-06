@@ -1,11 +1,11 @@
 <%-- 
-    Document   : listaModalidades
-    Created on : 15/08/2016, 20:38:15
+    Document   : listaPais
+    Created on : 05/09/2016, 21:57:20
     Author     : Fernanda Finkler
 --%>
 
-<%@page import="entidades.Modalidades"%>
-<%@page import="daos.ModalidadesDAO"%>
+<%@page import="entidades.Pais"%>
+<%@page import="daos.PaisDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,27 +20,29 @@
                 <tr class="header">
                     <td>ID</td>
                     <td>Nome</td>
+                    <td>Sigla</td>
                     <td>Ativo</td>
                     <td>Editar</td>
                     <td>Excluir</td>
                 </tr>
                 <%
-                    ArrayList<Object> modalidades = new ModalidadesDAO().consultarTodos();
-                    for (int i = 0; i < modalidades.size(); i++) {
-                        Modalidades modalidade = (Modalidades) modalidades.get(i);
+                    ArrayList<Object> paises = new PaisDAO().consultarTodos();
+                    for (int i = 0; i < paises.size(); i++) {
+                        Pais pais = (Pais) paises.get(i);
                         String ativo;
-                        if (modalidade.isAtivo()){
+                        if (pais.isAtivo()){
                             ativo = "Sim";
                         } else {
                             ativo = "Não";
                         }
                 %>
                 <tr>
-                    <td><%=modalidade.getIdModalidades()%></td>
-                    <td><%=modalidade.getNome()%></td>
+                    <td><%=pais.getIdpais()%></td>
+                    <td><%=pais.getNome()%></td>
+                    <td><%=pais.getSigla()%></td>
                     <td><%= ativo %></td>
-                    <td><a href="/CompetitionsWEB/controlador?parametro=editarModalidade&id=<%=modalidade.getIdModalidades()%>">Editar</a></td>
-                    <td><a OnClick="return confirm('Confirma exclusão?')" href="/CompetitionsWEB/controlador?parametro=excluirModalidade&id=<%=modalidade.getIdModalidades()%>">Excluir</a></td>
+                    <td><a href="/CompetitionsWEB/controlador?parametro=editarPais&id=<%=pais.getIdpais()%>">Editar</a></td>
+                    <td><a OnClick="return confirm('Confirma exclusão?')" href="/CompetitionsWEB/controlador?parametro=excluirPais&id=<%=pais.getIdpais()%>">Excluir</a></td>
                 </tr>
                 <%
                     }

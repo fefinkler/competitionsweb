@@ -16,18 +16,14 @@
         <br>
         <h1>Cadastro de Locais</h1>
 
-        <form action="/CompetitionsWEB/controlador?parametro=cadastraLocal" method="post">
-            <label>Nome:&nbsp;</label>
-            <input type="text" name="nome">
-            <br>
-            <label>Sigla:&nbsp;</label>
-            <input type="text" name="sigla">
-            <br>
-            <label>Ativo:&nbsp;</label>
-            <%--<input type="text" name="ativo">--%>
-            <br>
-            <input type="submit" value="Salvar">
-        </form>
-
+        <%
+            String active = (String)  request.getParameter("a");
+        %>
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="<%= activM %>"><a href="cadastroModalidades.jsp">Cidades</a></li>
+            <li role="presentation"><a href="#">Estados</a></li>
+            <li role="presentation"><a href="cadastroPaises.jsp">Países</a></li>
+        </ul>
+  
     </body>
 </html>

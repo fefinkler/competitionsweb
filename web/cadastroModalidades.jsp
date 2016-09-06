@@ -29,18 +29,7 @@
 
             <label>Nome:</label>&nbsp;
             <input type="text" name="nome" value="<%= m.getNome()%>"> &nbsp;
-
-            <%
-              if (m.isAtivo()) {
-            %>
-            <input type="checkbox" name="ativo" value="ativo" checked>&nbsp;Ativo&nbsp;&nbsp;
-            <%
-            } else {
-            %>
-            <input type="checkbox" name="ativo" value="ativo">&nbsp;Ativo&nbsp;&nbsp;
-            <%
-                }
-            %>
+            <input type="checkbox" name="ativo" <%=m.isAtivo() ? "checked" : ""%>> Ativo &nbsp;
             <input type="submit" value="Salvar">
 
         </form>

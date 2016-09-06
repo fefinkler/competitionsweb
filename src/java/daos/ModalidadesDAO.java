@@ -89,7 +89,7 @@ public class ModalidadesDAO implements IDAO {
     public ArrayList<Object> consultarTodos() {
         ArrayList<Object> modalidades = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM modalidades";
+            String sql = "SELECT * FROM modalidades  ORDER BY idmodalidades";
             ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
             
             while (resultado.next()){

@@ -19,6 +19,13 @@
         <title>CompetitionsWEB</title>
     </head>
     <body>
+
+        <%
+            // verificando se tem um atributo login na sessao
+            // se houver vai continuar e mostrar a pagina
+            if (session.getAttribute("usuarioLogado") != null) {
+        %>
+
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -37,8 +44,8 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="cadastroModalidades.jsp">Modalidades</a></li>
-                                <li><a href="#">Tipos Despesas</a></li>
-                                <li><a href="#">Lugares</a></li>
+                                <li><a href="cadastroTiposDespesas.jsp">Tipos Despesas</a></li>
+                                <li><a href="cadastroLocais.jsp?a=m">Locais</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li class="dropdown-header">Nav header</li>
                                 <li><a href="#">Separated link</a></li>
@@ -58,7 +65,7 @@
                             </ul>
                         </li>                        
                         <li><a href="#about">Sobre</a></li>
-                        <li><a href="#contact">xxx</a></li>
+                        <li><a href="/CompetitionsWEB/controlador?parametro=logout">Sair</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="../navbar/">Default</a></li>
@@ -71,6 +78,16 @@
 
         <script src="boots/js/jquery.min.js" type="text/javascript"></script>
         <script src="boots/js/bootstrap.min.js" type="text/javascript"></script>
+
+        <%
+            // se não existir um login na sessao,
+            // vai enviar para a página de login novamente
+            } else {
+        %>
+            <jsp:forward page="index.jsp"></jsp:forward>
+        <%
+            }
+        %>
 
     </body>
 </html>
