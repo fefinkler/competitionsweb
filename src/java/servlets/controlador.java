@@ -6,10 +6,14 @@
 package servlets;
 
 import daos.AtletaDAO;
+import daos.CidadeDAO;
+import daos.EstadoDAO;
 import daos.ModalidadesDAO;
 import daos.PaisDAO;
 import daos.TiposDespesasDAO;
 import entidades.Atleta;
+import entidades.Cidade;
+import entidades.Estado;
 import entidades.Modalidades;
 import entidades.Pais;
 import entidades.TiposDespesas;
@@ -80,14 +84,36 @@ public class controlador extends HttpServlet {
             editarModalidade();
         } else if (request.getParameter("parametro").equals("excluirModalidade")) {
             excluirModalidade();
+        } else if (request.getParameter("parametro").equals("inativarModalidade")) {
+            inativarModalidade();
         } else if (request.getParameter("parametro").equals("editarTipoDespesa")) {
             editarTiposDespesas();
         } else if (request.getParameter("parametro").equals("excluirTipoDespesa")) {
             excluirTiposDespesas();
+        } else if (request.getParameter("parametro").equals("inativarTipoDespesa")) {
+            inativarTiposDespesas();
         } else if (request.getParameter("parametro").equals("editarPais")) {
             editarPais();
         } else if (request.getParameter("parametro").equals("excluirPais")) {
             excluirPais();
+        } else if (request.getParameter("parametro").equals("inativarPais")) {
+            inativarPais();
+        } else if (request.getParameter("parametro").equals("editarEstado")) {
+            editarEstado();
+        } else if (request.getParameter("parametro").equals("buscarEstados")) {
+            buscarEstado();
+        } else if (request.getParameter("parametro").equals("excluirEstado")) {
+            excluirEstado();
+        } else if (request.getParameter("parametro").equals("inativarEstado")) {
+            inativarEstado();
+        } else if (request.getParameter("parametro").equals("editarCidade")) {
+            editarCidade();
+        } else if (request.getParameter("parametro").equals("excluirCidade")) {
+            excluirCidade();
+        } else if (request.getParameter("parametro").equals("inativarCidade")) {
+            inativarCidade();
+        } else if (request.getParameter("parametro").equals("logout")) {
+            logout();
         }
     }
 
@@ -103,7 +129,6 @@ public class controlador extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-        System.out.println("entrou no doPost");
         requisicao = request;
         resposta = response;
 
@@ -116,14 +141,15 @@ public class controlador extends HttpServlet {
         } else if (request.getParameter("parametro").equals("cadastraPais")) {
             cadastrarPais();
 
+        } else if (request.getParameter("parametro").equals("cadastraEstado")) {
+            cadastrarEstado();
+
+        } else if (request.getParameter("parametro").equals("cadastraCidade")) {
+            cadastrarCidade();
+
         } else if (requisicao.getParameter("parametro").equals("login")) {
             validarLogin();
             
-        } else if (requisicao.getParameter("parametro").equals("logout")) {
-            logout();
-            
-        } else {
-            System.out.println("veio pelo Request = " + request.getParameter("a"));
         }
 
     }
@@ -165,13 +191,28 @@ public class controlador extends HttpServlet {
         } else {
             retorno = new ModalidadesDAO().atualizar(m);
         }
-
-        if (retorno == null) {
-            requisicao.setAttribute("paginaretorno", "cadastroModalidades.jsp");
-            encaminharPagina("sucesso.jsp");
-        } else {
-            encaminharPagina("erro.jsp");
+        
+        try {
+            PrintWriter out = resposta.getWriter();
+            if (retorno == null) {
+//            requisicao.setAttribute("paginaRetorno", "cadLugar.jsp");
+//            encaminharPagina("sucesso.jsp");
+                out.println("ok");
+            } else {
+                //encaminharPagina("erro.jsp");
+                out.println("erro");
+            }
+        } catch (Exception e) {
+            System.out.println("erro: " + e);
         }
+        
+//        
+//        requisicao.setAttribute("paginaretorno", "cadastroModalidades.jsp");
+//        if (retorno == null) {
+//            encaminharPagina("sucesso.jsp");
+//        } else {
+//            encaminharPagina("erro.jsp");
+//        }
     }
 
     private void editarModalidade() {
@@ -187,10 +228,20 @@ public class controlador extends HttpServlet {
     private void excluirModalidade() {
         int id = Integer.parseInt(requisicao.getParameter("id"));
         String retorno = new ModalidadesDAO().excluir(id);
-
+        requisicao.setAttribute("paginaretorno", "cadastroModalidades.jsp");
         if (retorno == null) {
-            requisicao.setAttribute("paginaretorno", "cadastroModalidades.jsp");
             encaminharPagina("sucesso.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void inativarModalidade() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String retorno = new ModalidadesDAO().inativar(id);
+        requisicao.setAttribute("paginaretorno", "cadastroModalidades.jsp");
+        if (retorno == null) {
+            encaminharPagina("cadastroModalidades.jsp");
         } else {
             encaminharPagina("erro.jsp");
         }
@@ -212,9 +263,8 @@ public class controlador extends HttpServlet {
         } else {
             retorno = new TiposDespesasDAO().atualizar(td);
         }
-
+        requisicao.setAttribute("paginaretorno", "cadastroTiposDespesas.jsp");
         if (retorno == null) {
-            requisicao.setAttribute("paginaretorno", "cadastroTiposDespesas.jsp");
             encaminharPagina("sucesso.jsp");
         } else {
             encaminharPagina("erro.jsp");
@@ -234,10 +284,20 @@ public class controlador extends HttpServlet {
     private void excluirTiposDespesas() {
         int id = Integer.parseInt(requisicao.getParameter("id"));
         String retorno = new TiposDespesasDAO().excluir(id);
-
+        requisicao.setAttribute("paginaretorno", "cadastroTiposDespesas.jsp");
         if (retorno == null) {
-            requisicao.setAttribute("paginaretorno", "cadastroTiposDespesas.jsp");
             encaminharPagina("sucesso.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void inativarTiposDespesas() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String retorno = new TiposDespesasDAO().inativar(id);
+        requisicao.setAttribute("paginaretorno", "cadastroTiposDespesas.jsp");
+        if (retorno == null) {
+            encaminharPagina("cadastroTiposDespesas.jsp");
         } else {
             encaminharPagina("erro.jsp");
         }
@@ -246,12 +306,13 @@ public class controlador extends HttpServlet {
     private void cadastrarPais() {
         int id = Integer.parseInt(requisicao.getParameter("id"));
         String nome = requisicao.getParameter("nome");
-        String sigla = requisicao.getParameter("sigla");
+        String sigla = requisicao.getParameter("siglaPais");
         boolean ativo = requisicao.getParameter("ativo") != null;
 
         Pais p = new Pais();
         p.setIdpais(id);
         p.setNome(nome);
+        p.setSigla(sigla);
         p.setAtivo(ativo);
 
         String retorno;
@@ -260,9 +321,8 @@ public class controlador extends HttpServlet {
         } else {
             retorno = new PaisDAO().atualizar(p);
         }
-
+        requisicao.setAttribute("paginaretorno", "cadastroPaises.jsp");
         if (retorno == null) {
-            requisicao.setAttribute("paginaretorno", "cadastroPaises.jsp");
             encaminharPagina("sucesso.jsp");
         } else {
             encaminharPagina("erro.jsp");
@@ -282,15 +342,147 @@ public class controlador extends HttpServlet {
     private void excluirPais() {
         int id = Integer.parseInt(requisicao.getParameter("id"));
         String retorno = new PaisDAO().excluir(id);
-
+        requisicao.setAttribute("paginaretorno", "cadastroPaises.jsp");
         if (retorno == null) {
-            requisicao.setAttribute("paginaretorno", "cadastroPaises.jsp?a=p");
             encaminharPagina("sucesso.jsp");
         } else {
             encaminharPagina("erro.jsp");
         }
     }
+    
+    private void inativarPais() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String retorno = new PaisDAO().inativar(id);
+        requisicao.setAttribute("paginaretorno", "cadastroPaises.jsp");
+        if (retorno == null) {
+            encaminharPagina("cadastroPaises.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
 
+    private void cadastrarEstado() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String nome = requisicao.getParameter("nome");
+        String sigla = requisicao.getParameter("siglaEstado");
+        int pais = Integer.parseInt(requisicao.getParameter("pais"));
+        boolean ativo = requisicao.getParameter("ativo") != null;
+
+        Estado e = new Estado();
+        e.setIdestado(id);
+        e.setNome(nome);
+        e.setSigla(sigla);
+        e.setPais(pais);
+        e.setAtivo(ativo);
+
+        String retorno;
+        if (e.getIdestado()== 0) {
+            retorno = new EstadoDAO().salvar(e);
+        } else {
+            retorno = new EstadoDAO().atualizar(e);
+        }
+        requisicao.setAttribute("paginaretorno", "cadastroEstados.jsp");
+        if (retorno == null) {
+            encaminharPagina("sucesso.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void editarEstado() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        Estado e = (Estado) new EstadoDAO().consultarId(id);
+
+        if (e != null) {
+            requisicao.setAttribute("estado", e);
+            encaminharPagina("cadastroEstados.jsp");
+        }
+    }
+    
+    private void buscarEstados(){
+        
+    }
+
+    private void excluirEstado() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String retorno = new EstadoDAO().excluir(id);
+        requisicao.setAttribute("paginaretorno", "cadastroEstados.jsp");
+        if (retorno == null) {
+            encaminharPagina("sucesso.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void inativarEstado() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String retorno = new EstadoDAO().inativar(id);
+        requisicao.setAttribute("paginaretorno", "cadastroEstados.jsp");
+        if (retorno == null) {
+            encaminharPagina("cadastroEstados.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void cadastrarCidade() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String nome = requisicao.getParameter("nome");
+        int estado = Integer.parseInt(requisicao.getParameter("estado"));
+        boolean ativo = requisicao.getParameter("ativo") != null;
+
+        Cidade c = new Cidade();
+        c.setIdcidade(id);
+        c.setNome(nome);
+        c.setEstado(estado);
+        c.setAtivo(ativo);
+
+        String retorno;
+        if (c.getIdcidade()== 0) {
+            retorno = new CidadeDAO().salvar(c);
+        } else {
+            retorno = new CidadeDAO().atualizar(c);
+        }
+        requisicao.setAttribute("paginaretorno", "cadastroCidades.jsp");
+        if (retorno == null) {
+            encaminharPagina("sucesso.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void editarCidade() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        Cidade c = (Cidade) new CidadeDAO().consultarId(id);
+
+        if (c != null) {
+            requisicao.setAttribute("cidade", c);
+            encaminharPagina("cadastroCidades.jsp");
+        }
+    }
+    
+    private void excluirCidade() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String retorno = new CidadeDAO().excluir(id);
+        requisicao.setAttribute("paginaretorno", "cadastroCidades.jsp");
+        if (retorno == null) {
+            encaminharPagina("sucesso.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void inativarCidade() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String retorno = new CidadeDAO().inativar(id);
+        requisicao.setAttribute("paginaretorno", "cadastroCidades.jsp");
+        if (retorno == null) {
+            encaminharPagina("cadastroCidades.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
     /**
      * Returns a short description of the servlet.
      *

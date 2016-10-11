@@ -10,6 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="boots/js/validacao51.js" type="text/javascript"></script>
         <title>TMT</title>
     </head>
     <body>
@@ -24,14 +25,15 @@
             }
         %>
 
-        <form action="/CompetitionsWEB/controlador?parametro=cadastraTipoDespesa" method="post">
+        <form action="/CompetitionsWEB/controlador?parametro=cadastraTipoDespesa" method="post" name="dados" onSubmit="return validardadosMTD();">
             <input type="hidden" name="id" value="<%= td.getIdTiposDespesas()%>">
 
             <label>Nome:</label>&nbsp;
             <input type="text" name="nome" value="<%= td.getNome()%>"> &nbsp;
             <input type="checkbox" name="ativo" <%=td.isAtivo() ? "checked" : ""%>> Ativo &nbsp;
-            <input type="submit" value="Salvar">
+            <input type="submit" name="Submit" class="formobjects" value="Salvar">
 
+            <!--<input type="reset" name="Reset" class="formobjects" value="Limpar">-->
         </form>
 
         <BR>

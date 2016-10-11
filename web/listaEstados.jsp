@@ -1,11 +1,13 @@
 <%-- 
-    Document   : listaModalidades
-    Created on : 15/08/2016, 20:38:15
+    Document   : listaEstados
+    Created on : 12/09/2016, 20:15:00
     Author     : Fernanda Finkler
 --%>
 
-<%@page import="entidades.Modalidades"%>
-<%@page import="daos.ModalidadesDAO"%>
+<%@page import="daos.PaisDAO"%>
+<%@page import="entidades.Pais"%>
+<%@page import="entidades.Estado"%>
+<%@page import="daos.EstadoDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,30 +22,35 @@
                 <tr class="header">
                     <th>ID</th>
                     <th>Nome</th>
+                    <th>Sigla</th>
+                    <th>País</th>
                     <th>Ativo</th>
                     <th>Editar</th>
                     <th>Excluir</th>
                 </tr>
                 <%
-                    ArrayList<Object> modalidades = new ModalidadesDAO().consultarTodos();
-                    for (int i = 0; i < modalidades.size(); i++) {
-                        Modalidades modalidade = (Modalidades) modalidades.get(i);
+                    ArrayList<Object> estados = new EstadoDAO().consultarTodos();
+                    for (int i = 0; i < estados.size(); i++) {
+                        Estado estado = (Estado) estados.get(i);
                         String ativo;
-                        if (modalidade.isAtivo()) {
+                        if (estado.isAtivo()) {
                             ativo = "Sim";
                         } else {
                             ativo = "Não";
                         }
+                        Pais p = (Pais) new PaisDAO().consultarId(estado.getPais());
                 %>
                 <tr>
-                    <td><%=modalidade.getIdModalidades()%></td>
-                    <td><%=modalidade.getNome()%></td>
+                    <td><%=estado.getIdestado()%></td>
+                    <td><%=estado.getNome()%></td>
+                    <td><%=estado.getSigla()%></td>
+                    <td><%=p.getNome() %></td>
                     <td><%= ativo%></td>
-                    <td><a href="/CompetitionsWEB/controlador?parametro=editarModalidade&id=<%=modalidade.getIdModalidades()%>">Editar</a></td>
+                    <td><a href="/CompetitionsWEB/controlador?parametro=editarEstado&id=<%=estado.getIdestado()%>">Editar</a></td>
                     <%
                         String msg = "";
                         String parametro = "";
-                        if (new ModalidadesDAO().possuiVinculos(modalidade.getIdModalidades())) {
+                        if (new EstadoDAO().possuiVinculos(estado.getIdestado())) {
                             msg = "Este registro possui vínculos, não é possível excluir. Deseja inativá-lo?";
                             parametro = "inativar";
                         } else {
@@ -51,7 +58,7 @@
                             parametro = "excluir";
                         }
                     %>
-                    <td><a OnClick="return confirm('<%=msg%>')" href="/CompetitionsWEB/controlador?parametro=<%=parametro%>Modalidade&id=<%=modalidade.getIdModalidades()%>">Excluir</a></td>
+                    <td><a OnClick="return confirm('<%=msg%>')" href="/CompetitionsWEB/controlador?parametro=<%=parametro%>Estado&id=<%=estado.getIdestado()%>">Excluir</a></td>
                 </tr>
                 <%
                     }

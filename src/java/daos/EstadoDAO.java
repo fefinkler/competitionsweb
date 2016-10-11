@@ -87,7 +87,45 @@ public class EstadoDAO implements IDAO {
 
     @Override
     public ArrayList<Object> consultarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Object> estados = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM estado ORDER BY nome";
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            
+            while (resultado.next()){
+                Estado e = new Estado();
+                e.setIdestado(resultado.getInt("idestado"));
+                e.setNome(resultado.getString("nome"));
+                e.setSigla(resultado.getString("sigla"));
+                e.setPais(resultado.getInt("ref_pais"));
+                e.setAtivo(resultado.getBoolean("ativo"));
+                estados.add(e);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consulta todos estados: " + e);
+        }
+        return estados;
+    }
+    
+    public ArrayList<Object> consultarTodosAtivos(int pais) {
+        ArrayList<Object> estados = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM estado WHERE ref_pais = " + pais + "AND ativo = 'true' ORDER BY nome";
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            
+            while (resultado.next()){
+                Estado e = new Estado();
+                e.setIdestado(resultado.getInt("idestado"));
+                e.setNome(resultado.getString("nome"));
+                e.setSigla(resultado.getString("sigla"));
+                e.setPais(resultado.getInt("ref_pais"));
+                e.setAtivo(resultado.getBoolean("ativo"));
+                estados.add(e);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consulta todos Estados Ativos: " + e);
+        }
+        return estados;
     }
 
     @Override

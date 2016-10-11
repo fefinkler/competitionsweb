@@ -17,12 +17,25 @@
         <h1>Cadastro de Locais</h1>
 
         <%
-            String active = (String)  request.getParameter("a");
+        
+            String classCidades = "";
+            String classEstados = "";
+            String classPaises = "";
+            
+            String classActive = (String)  request.getParameter("active");
+            
+            if (classActive.equalsIgnoreCase("c")){
+                classCidades = "active";
+            } else if (classActive.equalsIgnoreCase("e")){
+                classEstados = "active";
+            } else if (classActive.equalsIgnoreCase("p")){
+                classPaises = "active";
+            }
         %>
         <ul class="nav nav-tabs">
-            <li role="presentation" class="<%= activM %>"><a href="cadastroModalidades.jsp">Cidades</a></li>
-            <li role="presentation"><a href="#">Estados</a></li>
-            <li role="presentation"><a href="cadastroPaises.jsp">Países</a></li>
+            <li role="presentation" class="<%= classCidades %>"><a href="cadastroCidades.jsp">Cidades</a></li>
+            <li role="presentation" class="<%= classEstados %>"><a href="cadastroEstados.jsp">Estados</a></li>
+            <li role="presentation" class="<%= classPaises %>"><a href="cadastroPaises.jsp">Países</a></li>
         </ul>
   
     </body>

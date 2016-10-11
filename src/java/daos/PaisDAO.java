@@ -88,7 +88,7 @@ public class PaisDAO implements IDAO {
     public ArrayList<Object> consultarTodos() {
         ArrayList<Object> paises = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM pais ORDER BY idpais";
+            String sql = "SELECT * FROM pais ORDER BY nome";
             ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
             
             while (resultado.next()){
@@ -100,11 +100,31 @@ public class PaisDAO implements IDAO {
                 paises.add(p);
             }
         } catch (Exception e) {
-            System.out.println("Erro consulta todas modalidades: " + e);
+            System.out.println("Erro consulta todos países: " + e);
         }
         return paises;
     }
 
+    public ArrayList<Object> consultarTodosAtivos() {
+        ArrayList<Object> paises = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM pais WHERE ativo = 'true' ORDER BY nome";
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            
+            while (resultado.next()){
+                Pais p = new Pais();
+                p.setIdpais(resultado.getInt("idpais"));
+                p.setNome(resultado.getString("nome"));
+                p.setSigla(resultado.getString("sigla"));
+                p.setAtivo(resultado.getBoolean("ativo"));
+                paises.add(p);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consulta todos Países Ativos: " + e);
+        }
+        return paises;
+    }
+    
     @Override
     public ArrayList<Object> consultar(String criterio) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

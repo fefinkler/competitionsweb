@@ -1,6 +1,6 @@
 <%-- 
-    Document   : listaModalidades
-    Created on : 15/08/2016, 20:38:15
+    Document   : listaModal
+    Created on : 10/10/2016, 20:45:06
     Author     : Fernanda Finkler
 --%>
 
@@ -11,21 +11,41 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>TMT</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">     
+
+        <style type="text/css" media="all">
+            table#tableTrClick tr.trClick{background: #fff; color: #000; cursor: pointer;}  
+            table#tableTrClick tr.trClick:hover{background: blue; color: #fff;}  
+        </style>
+
+        <script lang="javascript">
+            $(document).ready(function () {
+
+                $('#tableTrClick tr').click(function () {
+                    $('#id').val($(this).find('td').eq(0).html());
+                    $('#nome').val($(this).find('td').eq(1).html());
+                    $('#ativo').val($(this).find('td').eq(2).html());
+                });
+            });
+
+        </script>
+
+
+        <title>JSP Page</title>
     </head>
     <body>
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <tr class="header">
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Ativo</th>
-                    <th>Editar</th>
-                    <th>Excluir</th>
+        <h1>Lista de Modalidades!</h1>
+        <div id="content">
+            <table class="table table-responsive" id="tableTrClick">               
+
+                <tr>
+                    <td>ID</td>
+                    <td>Nome</td>
+                    <td>Ativo</td>
                 </tr>
                 <%
                     ArrayList<Object> modalidades = new ModalidadesDAO().consultarTodos();
+
                     for (int i = 0; i < modalidades.size(); i++) {
                         Modalidades modalidade = (Modalidades) modalidades.get(i);
                         String ativo;
@@ -35,11 +55,13 @@
                             ativo = "Não";
                         }
                 %>
-                <tr>
-                    <td><%=modalidade.getIdModalidades()%></td>
-                    <td><%=modalidade.getNome()%></td>
+
+                <tr class="trClick">
+                    <td><%= modalidade.getIdModalidades()%></td>
+                    <td><%= modalidade.getNome()%></td>
                     <td><%= ativo%></td>
-                    <td><a href="/CompetitionsWEB/controlador?parametro=editarModalidade&id=<%=modalidade.getIdModalidades()%>">Editar</a></td>
+                    <!--<td><a OnClick="return confirm('Confirma exclusão?')" href="index_original.html">Excluir</a></td>-->
+                    <!--<td><a href="/CompetitionsWEB/controlador?parametro=editarModalidade&id=<%=modalidade.getIdModalidades()%>">Editar</a></td>-->
                     <%
                         String msg = "";
                         String parametro = "";
@@ -56,7 +78,13 @@
                 <%
                     }
                 %>
+
             </table>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
         </div>
 
     </body>

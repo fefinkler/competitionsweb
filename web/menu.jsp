@@ -12,7 +12,7 @@
         <!--<link href="css/menu.css" rel="stylesheet" type="text/css" />-->
         <!-- Bootstrap core CSS -->
         <link href="boots/css/bootstrap.min.css" rel="stylesheet">
-
+        <link href="boots/css/sweetalert.css" rel="stylesheet" type="text/css"/>
         <!-- Custom styles for this template -->
         <link href="boots/css/signin.css" rel="stylesheet">
         <link href="boots/css/navbar-fixed-top.css" rel="stylesheet" type="text/css"/>
@@ -45,7 +45,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="cadastroModalidades.jsp">Modalidades</a></li>
                                 <li><a href="cadastroTiposDespesas.jsp">Tipos Despesas</a></li>
-                                <li><a href="cadastroLocais.jsp?a=m">Locais</a></li>
+                                <li><a href="cadastroLocais.jsp?active=c">Locais</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li class="dropdown-header">Nav header</li>
                                 <li><a href="#">Separated link</a></li>
@@ -75,16 +75,19 @@
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
-
+        
+        <script src="boots/js/jquery-3.1.1.min.js" type="text/javascript"></script>
         <script src="boots/js/jquery.min.js" type="text/javascript"></script>
         <script src="boots/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="boots/js/bootbox.min.js" type="text/javascript"></script>
+        <script src="boots/js/sweetalert.js" type="text/javascript"></script>
 
         <%
             // se não existir um login na sessao,
             // vai enviar para a página de login novamente
-            } else {
+        } else {
         %>
-            <jsp:forward page="index.jsp"></jsp:forward>
+        <jsp:forward page="index.jsp"></jsp:forward>
         <%
             }
         %>
