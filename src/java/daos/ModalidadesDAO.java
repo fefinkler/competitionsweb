@@ -107,7 +107,22 @@ public class ModalidadesDAO implements IDAO {
 
     @Override
     public ArrayList<Object> consultar(String criterio) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Object> modalidades = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM modalidades WHERE nome ILIKE '%" + criterio + "%' ORDER BY idmodalidades";
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            
+            while (resultado.next()){
+                Modalidades m = new Modalidades();
+                m.setIdModalidades(resultado.getInt("idmodalidades"));
+                m.setNome(resultado.getString("nome"));
+                m.setAtivo(resultado.getBoolean("ativo"));
+                modalidades.add(m);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro buscar modalidades: " + e);
+        }
+        return modalidades;
     }
 
     @Override

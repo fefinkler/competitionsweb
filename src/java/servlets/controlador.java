@@ -7,18 +7,22 @@ package servlets;
 
 import daos.AtletaDAO;
 import daos.CidadeDAO;
+import daos.CompeticaoDAO;
 import daos.EstadoDAO;
 import daos.ModalidadesDAO;
 import daos.PaisDAO;
 import daos.TiposDespesasDAO;
 import entidades.Atleta;
 import entidades.Cidade;
+import entidades.Competicao;
 import entidades.Estado;
 import entidades.Modalidades;
 import entidades.Pais;
 import entidades.TiposDespesas;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -86,6 +90,8 @@ public class controlador extends HttpServlet {
             excluirModalidade();
         } else if (request.getParameter("parametro").equals("inativarModalidade")) {
             inativarModalidade();
+        } else if (request.getParameter("parametro").equals("verificarNome")){
+            verificarNome();
         } else if (request.getParameter("parametro").equals("editarTipoDespesa")) {
             editarTiposDespesas();
         } else if (request.getParameter("parametro").equals("excluirTipoDespesa")) {
@@ -101,7 +107,7 @@ public class controlador extends HttpServlet {
         } else if (request.getParameter("parametro").equals("editarEstado")) {
             editarEstado();
         } else if (request.getParameter("parametro").equals("buscarEstados")) {
-            buscarEstado();
+            buscarEstados();
         } else if (request.getParameter("parametro").equals("excluirEstado")) {
             excluirEstado();
         } else if (request.getParameter("parametro").equals("inativarEstado")) {
@@ -112,8 +118,23 @@ public class controlador extends HttpServlet {
             excluirCidade();
         } else if (request.getParameter("parametro").equals("inativarCidade")) {
             inativarCidade();
+        } else if (request.getParameter("parametro").equals("editarCompeticao")) {
+            editarCompeticao();
+        } else if (request.getParameter("parametro").equals("excluirCompeticaoo")) {
+            excluirCompeticao();
         } else if (request.getParameter("parametro").equals("logout")) {
             logout();
+        } else if (request.getParameter("parametro").equals("getCidade")) {
+            int id_estado = Integer.parseInt(request.getParameter("idEstado"));
+            String cidades = new CidadeDAO().obterCidadeCombo(id_estado);
+            response.getWriter().println(cidades);
+        } else if (request.getParameter("parametro").equals("getEstado")) {
+            int id_pais = Integer.parseInt(request.getParameter("idPais"));
+            String estados = new EstadoDAO().obterEstadoCombo(id_pais);
+            response.getWriter().println(estados);
+        } else if (request.getParameter("parametro").equals("getPais")) {
+            String paises = new PaisDAO().obterPaisCombo();
+            response.getWriter().println(paises);
         }
     }
 
@@ -146,6 +167,9 @@ public class controlador extends HttpServlet {
 
         } else if (request.getParameter("parametro").equals("cadastraCidade")) {
             cadastrarCidade();
+
+        } else if (request.getParameter("parametro").equals("cadastraCompeticao")) {
+            cadastrarCompeticao();
 
         } else if (requisicao.getParameter("parametro").equals("login")) {
             validarLogin();
@@ -192,27 +216,12 @@ public class controlador extends HttpServlet {
             retorno = new ModalidadesDAO().atualizar(m);
         }
         
-        try {
-            PrintWriter out = resposta.getWriter();
-            if (retorno == null) {
-//            requisicao.setAttribute("paginaRetorno", "cadLugar.jsp");
-//            encaminharPagina("sucesso.jsp");
-                out.println("ok");
-            } else {
-                //encaminharPagina("erro.jsp");
-                out.println("erro");
-            }
-        } catch (Exception e) {
-            System.out.println("erro: " + e);
+        requisicao.setAttribute("paginaretorno", "cadastroModalidades.jsp");
+        if (retorno == null) {
+            encaminharPagina("sucesso.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
         }
-        
-//        
-//        requisicao.setAttribute("paginaretorno", "cadastroModalidades.jsp");
-//        if (retorno == null) {
-//            encaminharPagina("sucesso.jsp");
-//        } else {
-//            encaminharPagina("erro.jsp");
-//        }
     }
 
     private void editarModalidade() {
@@ -244,6 +253,20 @@ public class controlador extends HttpServlet {
             encaminharPagina("cadastroModalidades.jsp");
         } else {
             encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void verificarNome() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String nome = requisicao.getParameter("nome");
+        boolean ok =  new ModalidadesDAO().verificaNome(nome, id);
+        
+        try {
+            PrintWriter out = resposta.getWriter();
+            out.write(String.valueOf(ok));
+            out.close();
+        } catch (Exception e) {
+            System.out.println("erro: " + e);
         }
     }
     
@@ -400,7 +423,16 @@ public class controlador extends HttpServlet {
     }
     
     private void buscarEstados(){
+        int id = Integer.parseInt(requisicao.getParameter("idpais"));
+        ArrayList<Estado> estados = new EstadoDAO().consultarTodosAtivos(id);
         
+        try {
+            PrintWriter out = resposta.getWriter();
+            out.append( estados.toString() );
+            out.close();
+        } catch (Exception e) {
+            System.out.println("erro: " + e);
+        }
     }
 
     private void excluirEstado() {
@@ -478,6 +510,63 @@ public class controlador extends HttpServlet {
         requisicao.setAttribute("paginaretorno", "cadastroCidades.jsp");
         if (retorno == null) {
             encaminharPagina("cadastroCidades.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void cadastrarCompeticao() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String nome = requisicao.getParameter("nome");
+        Date dia = (Date) new CompeticaoDAO().converteData(requisicao.getParameter("dia"));
+        char status = requisicao.getParameter("status").charAt(0);
+        String localidade = requisicao.getParameter("localidade");
+        String colocacao = requisicao.getParameter("colocacao");
+        String premiacao = requisicao.getParameter("premiacao");
+        String relato = requisicao.getParameter("relato");
+        int cidade = Integer.parseInt(requisicao.getParameter("cidade"));
+        
+        Competicao c = new Competicao();
+        c.setId(id);
+        c.setNome(nome);
+        c.setDia(dia);
+        c.setStatus(status);
+        c.setLocalidade(localidade);
+        c.setColocacao(colocacao);
+        c.setPremiacao(premiacao);
+        c.setRelato(relato);
+        c.setCidade(cidade);
+        
+        String retorno;
+        if (c.getId()== 0) {
+            retorno = new CompeticaoDAO().salvar(c);
+        } else {
+            retorno = new CompeticaoDAO().atualizar(c);
+        }
+        requisicao.setAttribute("paginaretorno", "menuCompeticoes.jsp");
+        if (retorno == null) {
+            encaminharPagina("sucesso.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void editarCompeticao() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        Competicao c = (Competicao) new CompeticaoDAO().consultarId(id);
+
+        if (c != null) {
+            requisicao.setAttribute("competicao", c);
+            encaminharPagina("cadastroCompeticoes.jsp");
+        }
+    }
+    
+    private void excluirCompeticao() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String retorno = new CompeticaoDAO().excluir(id);
+        requisicao.setAttribute("paginaretorno", "cadastroCompeticoes.jsp");
+        if (retorno == null) {
+            encaminharPagina("sucesso.jsp");
         } else {
             encaminharPagina("erro.jsp");
         }

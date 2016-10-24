@@ -107,8 +107,8 @@ public class EstadoDAO implements IDAO {
         return estados;
     }
     
-    public ArrayList<Object> consultarTodosAtivos(int pais) {
-        ArrayList<Object> estados = new ArrayList<>();
+    public ArrayList<Estado> consultarTodosAtivos(int pais) {
+        ArrayList<Estado> estados = new ArrayList<>();
         try {
             String sql = "SELECT * FROM estado WHERE ref_pais = " + pais + "AND ativo = 'true' ORDER BY nome";
             ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
@@ -278,5 +278,33 @@ public class EstadoDAO implements IDAO {
             System.out.println("Erro ao consultar: " + e);
         }
         return true;
+    }
+    
+    public String obterEstadoCombo(int idPais) {
+
+        String comboEstado = "";
+
+        try {
+            String sql = "select * from estado where ativo = true AND ref_pais = " + idPais;
+
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            
+            comboEstado = "<label for=\"comboe\">Estado:</label>&nbsp;";
+            comboEstado += "<select class=\"form-control\" name=\"estado\" id=\"estado\">\n";
+            comboEstado += "<option value=\"0\" id=\"0\"> Selecione </option>\n";
+
+            while (resultado.next()) {
+                int id = resultado.getInt("idestado");
+                String descricao = resultado.getString("nome");
+                comboEstado += "<option value=\"" + id + "\">" + descricao + " </option>\n";
+            }
+
+            comboEstado += "</select>";
+        } catch (Exception e) {
+            System.out.println("erro: " + e);
+            return null;
+        }
+
+        return comboEstado;
     }
 }

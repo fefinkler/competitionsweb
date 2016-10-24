@@ -18,7 +18,7 @@
 
         <%
         
-            String classCidades = "";
+            String classCidades = "active";
             String classEstados = "";
             String classPaises = "";
             
@@ -30,6 +30,8 @@
                 classEstados = "active";
             } else if (classActive.equalsIgnoreCase("p")){
                 classPaises = "active";
+            } else {
+                classCidades = "active";
             }
         %>
         <ul class="nav nav-tabs">

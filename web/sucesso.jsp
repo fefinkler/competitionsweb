@@ -21,6 +21,6 @@
             
         <a href='<%=pagina %>'>Volta para o cadastro</a>
         <br>
-        <a href='menu.jsp'>Volta para o Início</a>
+        <a href='menuCompeticoes.jsp'>Volta para o Início</a>
     </body>
 </html>

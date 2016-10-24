@@ -1,3 +1,5 @@
+
+
 <%-- 
     Document   : listaModalidades
     Created on : 15/08/2016, 20:38:15
@@ -25,7 +27,8 @@
                     <th>Excluir</th>
                 </tr>
                 <%
-                    ArrayList<Object> modalidades = new ModalidadesDAO().consultarTodos();
+                    String busca = request.getParameter("criterioModalidades");
+                    ArrayList<Object> modalidades = new ModalidadesDAO().consultar(busca);
                     for (int i = 0; i < modalidades.size(); i++) {
                         Modalidades modalidade = (Modalidades) modalidades.get(i);
                         String ativo;

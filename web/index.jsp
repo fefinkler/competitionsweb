@@ -29,3 +29,13 @@
             </form>
         </div>
 </html>
+
+
+<!--
+-- controlar nomes duplicados OKK
+-- avisos de cadastrado com sucesso popup
+-- combos PRETTO OKK
+-- correção link Cidades -- não funcionou
+-- Limpar campos PRETTO -- não funcionou
+-- Campo de Busca
+-->

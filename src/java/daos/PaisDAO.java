@@ -246,5 +246,32 @@ public class PaisDAO implements IDAO {
         }
         return true;
     }
+    
+    public String obterPaisCombo() {
+
+        String comboPais = "";
+
+        try {
+            String sql = "select * from pais where ativo = true";
+
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            comboPais = "<label for=\"comboPais\">País:</label>&nbsp;";
+            comboPais += "<select class=\"form-control\" name=\"comboPais\" id=\"comboPais\">\n";
+            comboPais += "<option value=\"0\" id=\"0\"> Selecione </option>\n"; 
+
+            while (resultado.next()) {
+                int id = resultado.getInt("idpais");
+                String descricao = resultado.getString("nome");
+                comboPais += "<option value=\"" + id + "\">" + descricao + " </option>\n";
+            }
+
+            comboPais += "</select>";
+        } catch (Exception e) {
+            System.out.println("erro: " + e);
+            return null;
+        }
+
+        return comboPais;
+    }
 
 }

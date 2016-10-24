@@ -14,34 +14,71 @@
         <script src="boots/js/jquery.min.js" type="text/javascript"></script>
         <script src="boots/js/validacao51.js" type="text/javascript"></script>
         <title>TMT</title>
-        
-        <script type="text/javascript">
-            function popularComboEstados()
+
+        <%
+            Cidade c = (Cidade) request.getAttribute("cidade");
+            
+            int paisSelecionado = 0;
+            int estadoSelecionado = 0;
+            
+            if (c == null) {
+                c = new Cidade();
+            }
+            else
             {
-                var idpais = $(this).attr("value");
-                
-                $.ajax({
-                        type: "GET",
-                        url: "/CompetitionsWEB/controlador?parametro=buscarEstados",
-                        data: idpais
-                    }).done(function (retorno) {
-                        var resultado = $.trim(retorno);
-                        if (resultado == "erro") {
-                            //alert("Deu erro:" + retorno);
-                             bootbox.alert("Deu erro!");
-                        } else {
-//                            bootbox.alert("Deu certo!");
-                            swal("Deu certo!")
-                            //alert("Deu certo: " + retorno);
-                            $('#formLugar').each(function () {
-                                this.reset();
-                            });
-                            $('#nomeLugar').focus();
+              paisSelecionado = ( (Estado)new EstadoDAO().consultarId( c.getEstado() ) ).getPais();
+              estadoSelecionado = c.getEstado();
+            }
+        %>
+        
+        <script lang="text/javascript">
+
+            // funcao associada a mudanca de valor na combo Estados
+            $(document).ready(function () {
+              
+                function carregaPais( )
+                {
+                    $.ajax({
+                        url: "/CompetitionsWEB/controlador?parametro=getPais",
+                        cache: false,
+                        success: function (html) {
+                            $("#combop").empty();
+                            $("#combop").append(html);
+                            
+                              $('#comboPais').on("change", function () {
+                                        carregaEstados();
+                              });
+                              
+                              $('#comboPais').find( "option[value='" + <%=paisSelecionado%> + "']" ).attr( 'selected', 'true' );
                         }
                     });
-            }
+                }
+                
+                function carregaEstados( )
+                {
+                    var idPais = $("#comboPais").val() || <%=paisSelecionado%>|| 0;
+                    $.ajax({
+                        url: "/CompetitionsWEB/controlador?parametro=getEstado&idPais=" + idPais,
+                        cache: false,
+                        success: function (html) {
+                            $("#comboe").empty();
+                            $("#comboe").append(html);
+                            
+                            $('#comboe').find( "option[value='" + <%=estadoSelecionado%> + "']" ).attr( 'selected', 'true' );
+                        }
+                    });
+                }
+
+                loadForm = function( )
+                {
+                    carregaPais();
+                    carregaEstados(  );
+                }
+                
+                loadForm();
+            });
         </script>
-        
+
     </head>
     <body>
         <jsp:include page='cadastroLocais.jsp'>
@@ -49,63 +86,27 @@
         </jsp:include>
         <BR>
 
-        <%
-            Cidade c = (Cidade) request.getAttribute("cidade");
-            if (c == null) {
-                c = new Cidade();
-            }
-            int paisSelecionado = 0;
-        %>
+        
+        <div class="container tab-pane">
+            <form class="form-inline" action="/CompetitionsWEB/controlador?parametro=cadastraCidade" method="post" name="dados" onSubmit="return validardadosCidade();">
+                <input type="hidden" name="id" value="<%= c.getIdcidade()%>">
 
-        <form action="/CompetitionsWEB/controlador?parametro=cadastraCidade" method="post" name="dados" onSubmit="return validardadosCidade();">
-            <input type="hidden" name="id" value="<%= c.getIdcidade()%>">
+                <div class="form-group">
+                    <label for="nome">Nome:</label>&nbsp;
+                    <input type="text" class="form-control" name="nome" id="nome" value="<%= c.getNome()%>"> &nbsp;
+                </div>
+                <div class="form-group" id="combop"></div>
+                <div class="form-group" id="comboe"></div>
+                <div class="form-group">
+                    <input type="checkbox" name="ativo" <%=c.isAtivo() ? "checked" : ""%>> Ativo &nbsp;
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="Submit" class="formobjects" value="Salvar">
+                </div>   
 
-            <label>Nome:</label>&nbsp;
-            <input type="text" name="nome" value="<%= c.getNome()%>"> &nbsp;
-
-            <label>País:</label>&nbsp;
-            <select name="pais" size="1" id="pais" >
-                <option value="0">Selecione</option>
-                <%
-                    ArrayList<Object> paises = new PaisDAO().consultarTodosAtivos();
-                    
-                    for (int i = 0; i < paises.size(); i++) {
-                        Pais pais = (Pais) paises.get(i);
-                        if (c.getIdcidade() == 0) {
-                %>
-                <option onclick="popularComboEstados();" value="<%=pais.getIdpais()%>"><%=pais.getNome()%></option>
-                <%
-                        } else {
-                            Estado e = (Estado) new EstadoDAO().consultarId(c.getEstado());
-                            paisSelecionado = e.getPais();
-                %>
-                <option onclick="popularComboEstados();" value="<%=pais.getIdpais()%>" <%=e.getPais() == pais.getIdpais() ? "selected" : ""%>><%=pais.getNome()%></option>
-                <%
-                        }
-                    }
-                %>
-            </select> &nbsp;
-
-            <label>Estado:</label>&nbsp;
-            <select name="estado" size="1" id="estado">
-                <option value="0">Selecione</option>
-                <%
-                    ArrayList<Object> estados = new EstadoDAO().consultarTodosAtivos(paisSelecionado);
-                    for (int i = 0; i < estados.size(); i++) {
-                        Estado estado = (Estado) estados.get(i);
-
-                %>
-                <option value="<%=estado.getIdestado()%>" <%=c.getEstado() == estado.getIdestado() ? "selected" : ""%>><%=estado.getNome()%></option>
-                <%
-                    }
-                %>
-            </select> &nbsp;
-
-            <input type="checkbox" name="ativo" <%=c.isAtivo() ? "checked" : ""%>> Ativo &nbsp;
-            <input type="submit" name="Submit" class="formobjects" value="Salvar">
-
-            <!--<input type="reset" name="Reset" class="formobjects" value="Limpar">-->
-        </form>
+                <!--<input type="reset" name="Reset" class="formobjects" value="Limpar">-->
+            </form>
+        </div>
 
         <BR>
         <%@include file ="listaCidades.jsp" %>

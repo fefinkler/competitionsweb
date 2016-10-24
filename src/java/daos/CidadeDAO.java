@@ -303,4 +303,32 @@ public class CidadeDAO implements IDAO {
         }
         return true;
     }
+    
+    public String obterCidadeCombo(int idEstado) {
+
+        String comboCidade = "";
+
+        try {
+            String sql = "select * from cidade where ativo = true AND ref_estado = " + idEstado;
+
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            
+            comboCidade = "<label for=\"comboc\">Cidade:</label>&nbsp;";
+            comboCidade += "<select class=\"form-control\" name=\"cidade\" id=\"cidade\">\n";
+            comboCidade += "<option value=\"0\" id=\"0\"> Selecione </option>\n";
+
+            while (resultado.next()) {
+                int id = resultado.getInt("idcidade");
+                String descricao = resultado.getString("nome");
+                comboCidade += "<option value=\"" + id + "\">" + descricao + " </option>\n";
+            }
+
+            comboCidade += "</select>";
+        } catch (Exception e) {
+            System.out.println("erro: " + e);
+            return null;
+        }
+
+        return comboCidade;
+    }
 }
