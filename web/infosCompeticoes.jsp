@@ -103,7 +103,7 @@
         </script>
     </head>
     <div>
-        <h1>Oi</h1>
+        <BR>
         <%
             Competicao comp = (Competicao) request.getAttribute("competicao");
             if (comp == null) {

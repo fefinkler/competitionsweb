@@ -16,7 +16,7 @@
 
         <script lang="text/javascript">
             buscarMod = function () {
-                alert( $('#busca').val() );
+//                alert( $('#busca').val() );
                 window.location.href = "cadastroModalidades.jsp?busca=" + $('#busca').val();
             };
         </script>

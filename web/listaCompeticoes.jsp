@@ -29,13 +29,21 @@
                     ArrayList<Object> competicoes = new CompeticaoDAO().consultarTodos();
                     for (int i = 0; i < competicoes.size(); i++) {
                         Competicao competicao = (Competicao) competicoes.get(i);
+                        String status = "";
+                        if (competicao.getStatus() == 'p') {
+                            status = "Programada";
+                        } else if (competicao.getStatus() == 'r'){
+                            status = "Realizada";
+                        } else if (competicao.getStatus() == 's'){
+                            status = "Suspensa";
+                        }
                         
                 %>
                 <tr>
                     <td><%=competicao.getId()%></td>
                     <td><%=competicao.getDia()%></td>
                     <td><%=competicao.getNome()%></td>
-                    <td><%=competicao.getStatus()%></td>
+                    <td><%= status%></td>
                     <td><a href="/CompetitionsWEB/controlador?parametro=editarCompeticao&id=<%=competicao.getId()%>">Editar</a></td>
                     <td><a OnClick="return confirm('Deseja realmente excluir este registro?')" href="/CompetitionsWEB/controlador?parametro=excluirCompeticao&id=<%=competicao.getId()%>">Excluir</a></td>
                 </tr>
