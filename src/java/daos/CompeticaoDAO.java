@@ -149,7 +149,28 @@ public class CompeticaoDAO implements IDAO {
 
     @Override
     public ArrayList<Object> consultar(String criterio) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Object> competicoes = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM competicao WHERE nome ILIKE '%" + criterio + "%' ORDER BY dia";
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            
+            while (resultado.next()){
+                Competicao c = new Competicao();
+                c.setId(resultado.getInt("idcompeticao"));
+                c.setNome(resultado.getString("nome"));
+                c.setDia(resultado.getDate("dia"));
+                c.setStatus(resultado.getString("status").charAt(0));
+                c.setLocalidade(resultado.getString("localidade"));
+                c.setColocacao(resultado.getString("colocacao"));
+                c.setPremiacao(resultado.getString("premiacao"));
+                c.setRelato(resultado.getString("relato"));
+                
+                competicoes.add(c);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro buscar modalidades: " + e);
+        }
+        return competicoes;
     }
 
     @Override

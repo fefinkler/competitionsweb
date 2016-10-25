@@ -12,7 +12,7 @@
         <!--<link href="css/login.css" rel="stylesheet" type="text/css" />-->
         <link href="boots/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="boots/css/signin.css" rel="stylesheet" type="text/css" />
-
+        
         <title>Competitions WEB</title>
     </head>
 

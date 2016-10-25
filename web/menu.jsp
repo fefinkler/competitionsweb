@@ -16,6 +16,7 @@
         <!-- Custom styles for this template -->
         <link href="boots/css/signin.css" rel="stylesheet">
         <link href="boots/css/navbar-fixed-top.css" rel="stylesheet" type="text/css"/>
+        
         <title>CompetitionsWEB</title>
     </head>
     <body>
@@ -77,10 +78,8 @@
             </div>
         </nav>
         
-        <script src="boots/js/jquery-3.1.1.min.js" type="text/javascript"></script>
         <script src="boots/js/jquery.min.js" type="text/javascript"></script>
         <script src="boots/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="boots/js/bootbox.min.js" type="text/javascript"></script>
         <script src="boots/js/sweetalert.js" type="text/javascript"></script>
 
         <%
