@@ -77,13 +77,11 @@ public class controlador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //    processRequest(request, response);
-        System.out.println("GGEEEEETTTTTTTTTTTT");
-//        String parametro = request.getParameter("bola");
-//        System.out.println("Valor de bola: " + parametro);
+        
+        response.setCharacterEncoding( "UTF-8" );
         requisicao = request;
         resposta = response;
-
+        
         if (request.getParameter("parametro").equals("editarModalidade")) {
             editarModalidade();
         } else if (request.getParameter("parametro").equals("excluirModalidade")) {
@@ -122,6 +120,8 @@ public class controlador extends HttpServlet {
             editarCompeticao();
         } else if (request.getParameter("parametro").equals("excluirCompeticaoo")) {
             excluirCompeticao();
+        } else if (request.getParameter("parametro").equals("excluirPercurso")) {
+            excluirPercurso();
         } else if (request.getParameter("parametro").equals("logout")) {
             logout();
         } else if (request.getParameter("parametro").equals("getCidade")) {
@@ -135,6 +135,9 @@ public class controlador extends HttpServlet {
         } else if (request.getParameter("parametro").equals("getPais")) {
             String paises = new PaisDAO().obterPaisCombo();
             response.getWriter().println(paises);
+        } else if (request.getParameter("parametro").equals("getModalidades")) {
+            String modalidades = new ModalidadesDAO().obterModalidadesCombo();
+            response.getWriter().println(modalidades);
         }
     }
 
@@ -187,7 +190,8 @@ public class controlador extends HttpServlet {
             HttpSession sessao = requisicao.getSession();
             // setando um atributo da sessao
             sessao.setAttribute("usuarioLogado", new Atleta());
-            encaminharPagina("menu.jsp");
+           
+           encaminharPagina("menuCompeticoes.jsp?active=l");
         } else {
             encaminharPagina("erro.jsp");
         }
@@ -520,7 +524,7 @@ public class controlador extends HttpServlet {
         String nome = requisicao.getParameter("nome");
         Date dia = (Date) new CompeticaoDAO().converteData(requisicao.getParameter("dia"));
         char status = requisicao.getParameter("status").charAt(0);
-        String localidade = requisicao.getParameter("localidade");
+        String localidade = requisicao.getParameter("local");
         String colocacao = requisicao.getParameter("colocacao");
         String premiacao = requisicao.getParameter("premiacao");
         String relato = requisicao.getParameter("relato");
@@ -540,9 +544,11 @@ public class controlador extends HttpServlet {
         String retorno;
         if (c.getId()== 0) {
             retorno = new CompeticaoDAO().salvar(c);
+            
         } else {
             retorno = new CompeticaoDAO().atualizar(c);
         }
+        requisicao.setAttribute("competicao", null);
         requisicao.setAttribute("paginaretorno", "menuCompeticoes.jsp");
         if (retorno == null) {
             encaminharPagina("sucesso.jsp");
@@ -557,7 +563,7 @@ public class controlador extends HttpServlet {
 
         if (c != null) {
             requisicao.setAttribute("competicao", c);
-            encaminharPagina("cadastroCompeticoes.jsp");
+            encaminharPagina("menuCompeticoes.jsp?active=c");
         }
     }
     
@@ -565,6 +571,18 @@ public class controlador extends HttpServlet {
         int id = Integer.parseInt(requisicao.getParameter("id"));
         String retorno = new CompeticaoDAO().excluir(id);
         requisicao.setAttribute("paginaretorno", "cadastroCompeticoes.jsp");
+        if (retorno == null) {
+            encaminharPagina("sucesso.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void excluirPercurso() {
+        int idComp = Integer.parseInt(requisicao.getParameter("idComp"));
+        int idModal = Integer.parseInt(requisicao.getParameter("idModal"));
+        String retorno = new CompeticaoDAO().excluirPercurso(idComp, idModal);
+        requisicao.setAttribute("paginaretorno", "cadastroModalidades.jsp");
         if (retorno == null) {
             encaminharPagina("sucesso.jsp");
         } else {

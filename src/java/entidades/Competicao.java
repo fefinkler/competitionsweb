@@ -13,14 +13,14 @@ import java.sql.Date;
  */
 public class Competicao {
     private int id;
-    private String nome;
+    private String nome = "";
     private Date dia;
     private char status;
     private int cidade;
-    private String localidade;
-    private String colocacao;
-    private String premiacao;
-    private String relato;
+    private String localidade = "";
+    private String colocacao = "";
+    private String premiacao = "";
+    private String relato = "";
     private Atleta[] equipe;
     private Modalidades[] modalidades;
     private TiposDespesas[] despesas;

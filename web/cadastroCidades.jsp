@@ -82,7 +82,7 @@
     </head>
     <body>
         <jsp:include page='cadastroLocais.jsp'>
-            <jsp:param name="active" value="c"/>
+            <jsp:param name="active" value="c"></jsp:param>
         </jsp:include>
         <BR>
 

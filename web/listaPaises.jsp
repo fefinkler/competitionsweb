@@ -26,9 +26,9 @@
                     <th>Excluir</th>
                 </tr>
                 <%
-                    ArrayList<Object> paises = new PaisDAO().consultarTodos();
-                    for (int i = 0; i < paises.size(); i++) {
-                        Pais pais = (Pais) paises.get(i);
+                    ArrayList<Object> listPaises = new PaisDAO().consultarTodos();
+                    for (int i = 0; i < listPaises.size(); i++) {
+                        Pais pais = (Pais) listPaises.get(i);
                         String ativo;
                         if (pais.isAtivo()) {
                             ativo = "Sim";

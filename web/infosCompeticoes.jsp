@@ -4,6 +4,7 @@
     Author     : Fernanda Finkler
 --%>
 
+<%@page import="daos.CidadeDAO"%>
 <%@page import="daos.EstadoDAO"%>
 <%@page import="entidades.Estado"%>
 <%@page import="entidades.Cidade"%>
@@ -19,18 +20,19 @@
         <title>TMT</title>
 
         <%
-            Cidade c = (Cidade) request.getAttribute("cidade");
+            Competicao comp = (Competicao) request.getAttribute("competicao");
 
             int paisSelecionado = 0;
             int estadoSelecionado = 0;
             int cidadeSelecionada = 0;
 
-            if (c == null) {
-                c = new Cidade();
+            if (comp == null) {
+                comp = new Competicao();
             } else {
-                paisSelecionado = ((Estado) new EstadoDAO().consultarId(c.getEstado())).getPais();
-                estadoSelecionado = c.getEstado();
-                cidadeSelecionada = c.getIdcidade();
+                cidadeSelecionada = comp.getCidade();
+                estadoSelecionado = ((Cidade) new CidadeDAO().consultarId(cidadeSelecionada)).getEstado();
+                paisSelecionado = ((Estado) new EstadoDAO().consultarId(estadoSelecionado)).getPais();
+                
             }
         %>
         <script lang="text/javascript">
@@ -71,7 +73,7 @@
                             });
 
 
-                            $('#comboEstado').find("option[value='" + <%=estadoSelecionado%> + "']").attr('selected', 'true');
+                            $('#estado').find("option[value='" + <%=estadoSelecionado%> + "']").attr('selected', 'true');
                         }
                     });
                 }
@@ -104,12 +106,7 @@
     </head>
     <div>
         <BR>
-        <%
-            Competicao comp = (Competicao) request.getAttribute("competicao");
-            if (comp == null) {
-                comp = new Competicao();
-            }
-        %>
+        
         <div class="container tab-pane form-horizontal">
             
                 <input type="hidden" name="id" value="<%= comp.getId()%>">
@@ -125,9 +122,9 @@
                 <div class="form-group">
                     <label for="nome">Situação:</label>&nbsp;
                     <%char status = comp.getStatus();%>
-                    <input type="radio" class="form-control" name="status" id="programada" value="p" <%=status!='r' || status!='s' ? "checked" : ""%>> Programada &nbsp; 
-                    <input type="radio" class="form-control" name="status" id="realizada" value="r"  <%=status=='r' ? "checked" : ""%>> Realizada &nbsp;
-                    <input type="radio" class="form-control" name="status" id="suspensa" value="s" <%=status=='s' ? "checked" : ""%>> Suspensa &nbsp;
+                    <input type="radio" name="status" id="programada" value="p" <%=status!='r' || status!='s' ? "checked" : ""%>> Programada &nbsp; 
+                    <input type="radio" name="status" id="realizada" value="r"  <%=status=='r' ? "checked" : ""%>> Realizada &nbsp;
+                    <input type="radio" name="status" id="suspensa" value="s" <%=status=='s' ? "checked" : ""%>> Suspensa &nbsp;
                 </div>
                 <div class="form-group" id="combop"></div>
                 <div class="form-group" id="comboe"></div>

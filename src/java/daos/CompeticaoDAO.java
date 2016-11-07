@@ -331,12 +331,11 @@ public class CompeticaoDAO implements IDAO {
         return retorno;
     }
 
-    public String excluirPercurso(int competicao, String modalidade) {
+    public String excluirPercurso(int competicao, int modalidade) {
         String retorno = null;
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-            String sql = "DELETE FROM percurso WHERE ref_competicao = " + competicao + " AND ref_modalidades = "
-                    + " (SELECT idmodalidades FROM modalidades WHERE nome = '" + modalidade + "')";
+            String sql = "DELETE FROM percurso WHERE ref_competicao = " + competicao + " AND ref_modalidades = " + modalidade + "";
             System.out.println("SQL: " + sql);
             int resultado = st.executeUpdate(sql);
         } catch (Exception e) {

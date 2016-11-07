@@ -32,19 +32,19 @@
     </head>
     <body>        
         <div class ="container">
-        <ul class="nav nav-tabs">
-            <li onClick="showTabs('TabInfos')"><a data-toggle="tab">Geral</a></li>
-            <li onClick="showTabs('TabPercurso')"><a data-toggle="tab">Percurso</a></li>
-            <li onClick="showTabs('TabEquipe')"><a data-toggle="tab">Equipe</a></li>
-            <li onClick="showTabs('TabDespesas')"><a data-toggle="tab">Despesas</a></li>
-        </ul>
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#TabInfos">Geral</a></li>
+                <li><a data-toggle="tab" href="#TabPercurso">Percurso</a></li>
+                <li><a data-toggle="tab" href="#TabEquipe">Equipe</a></li>
+                <li><a data-toggle="tab" href="#TabDespesas">Despesas</a></li>
+            </ul>
   
             <form class="" action="/CompetitionsWEB/controlador?parametro=cadastraCompeticao" method="post" name="dados">
                 <div class="tab-content" id="cad">
-                    <div id="TabInfos" class="tab-pane"><%@include file ="infosCompeticoes.jsp" %></div>
-                    <div id="TabPercurso" class="tab-pane"><%@include file ="percurso.jsp" %></div>
-                    <div id="TabEquipe" class="tab-pane"><%@include file ="equipe.jsp" %></div>
-                    <div id="TabDespesas" class="tab-pane"><%@include file ="despesas.jsp" %></div>
+                    <div id="TabInfos" class="tab-pane fade in active"><%@include file ="infosCompeticoes.jsp" %></div>
+                    <div id="TabPercurso" class="tab-pane fade"><%@include file ="percurso.jsp" %></div>
+                    <div id="TabEquipe" class="tab-pane fade"><%@include file ="equipe.jsp" %></div>
+                    <div id="TabDespesas" class="tab-pane fade"><%@include file ="despesas.jsp" %></div>
                 </div>
                 
                 <div class="form-group">

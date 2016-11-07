@@ -341,4 +341,31 @@ public class ModalidadesDAO implements IDAO {
         }
         return false;
     }
+    
+    public String obterModalidadesCombo() {
+
+        String comboModal = "";
+
+        try {
+            String sql = "select * from modalidades where ativo = true";
+
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            comboModal = "<label for=\"comboModal\">Modalidade:</label>&nbsp;";
+            comboModal += "<select class=\"form-control\" name=\"comboModal\" id=\"comboModal\">\n";
+            comboModal += "<option value=\"0\" id=\"0\"> Selecione </option>\n"; 
+
+            while (resultado.next()) {
+                int id = resultado.getInt("idmodalidades");
+                String descricao = resultado.getString("nome");
+                comboModal += "<option value=\"" + id + "\">" + descricao + " </option>\n";
+            }
+
+            comboModal += "</select>";
+        } catch (Exception e) {
+            System.out.println("erro: " + e);
+            return null;
+        }
+
+        return comboModal;
+    }
 }

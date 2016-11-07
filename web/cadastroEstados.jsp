@@ -16,7 +16,7 @@
     </head>
     <body>
         <jsp:include page='cadastroLocais.jsp'>
-            <jsp:param name="active" value="e"/>
+            <jsp:param name="active" value="e"></jsp:param>
         </jsp:include>
         <BR>
 
@@ -39,9 +39,9 @@
             <select name="pais" size="1" id="pais">
                 <option value="0">Selecione</option>
                 <%
-                    ArrayList<Object> paises = new PaisDAO().consultarTodosAtivos();
-                    for (int i = 0; i < paises.size(); i++) {
-                        Pais pais = (Pais) paises.get(i);
+                    ArrayList<Object> paisesEstados = new PaisDAO().consultarTodosAtivos();
+                    for (int i = 0; i < paisesEstados.size(); i++) {
+                        Pais pais = (Pais) paisesEstados.get(i);
 
                 %>
                 <option value="<%=pais.getIdpais()%>" <%=e.getPais()==pais.getIdpais() ? "selected" : ""%>><%=pais.getNome()%></option>
