@@ -291,5 +291,31 @@ public class TiposDespesasDAO implements IDAO {
         }
         return false;
     }
+
+    public String obterTiposDespesasCombo() {
+        String comboTiposDespesas = "";
+
+        try {
+            String sql = "select * from tipo_despesas where ativo = true";
+
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            comboTiposDespesas = "<label for=\"comboTiposDespesas\">Tipos Despesas:</label>&nbsp;";
+            comboTiposDespesas += "<select class=\"form-control\" name=\"comboTiposDespesas\" id=\"comboTiposDespesas\">\n";
+            comboTiposDespesas += "<option value=\"0\" id=\"0\"> Selecione </option>\n"; 
+
+            while (resultado.next()) {
+                int id = resultado.getInt("idtipo_despesas");
+                String descricao = resultado.getString("nome");
+                comboTiposDespesas += "<option value=\"" + id + "\">" + descricao + " </option>\n";
+            }
+
+            comboTiposDespesas += "</select>";
+        } catch (Exception e) {
+            System.out.println("erro: " + e);
+            return null;
+        }
+
+        return comboTiposDespesas;
+    }
     
 }

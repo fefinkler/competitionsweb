@@ -15,9 +15,11 @@ import daos.TiposDespesasDAO;
 import entidades.Atleta;
 import entidades.Cidade;
 import entidades.Competicao;
+import entidades.Despesa;
 import entidades.Estado;
 import entidades.Modalidades;
 import entidades.Pais;
+import entidades.Percurso;
 import entidades.TiposDespesas;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -120,8 +122,6 @@ public class controlador extends HttpServlet {
             editarCompeticao();
         } else if (request.getParameter("parametro").equals("excluirCompeticaoo")) {
             excluirCompeticao();
-        } else if (request.getParameter("parametro").equals("excluirPercurso")) {
-            excluirPercurso();
         } else if (request.getParameter("parametro").equals("logout")) {
             logout();
         } else if (request.getParameter("parametro").equals("getCidade")) {
@@ -138,6 +138,9 @@ public class controlador extends HttpServlet {
         } else if (request.getParameter("parametro").equals("getModalidades")) {
             String modalidades = new ModalidadesDAO().obterModalidadesCombo();
             response.getWriter().println(modalidades);
+        } else if (request.getParameter("parametro").equals("getDespesas")) {
+            String tiposdespesas = new TiposDespesasDAO().obterTiposDespesasCombo();
+            response.getWriter().println(tiposdespesas);
         }
     }
 
@@ -177,6 +180,17 @@ public class controlador extends HttpServlet {
         } else if (requisicao.getParameter("parametro").equals("login")) {
             validarLogin();
             
+        } else if (requisicao.getParameter("parametro").equals("addPercurso")) {
+            adicionaPercurso();
+            
+        } else if (request.getParameter("parametro").equals("excluirPercurso")) {
+            excluirPercurso();
+            
+        } else if (requisicao.getParameter("parametro").equals("addDespesa")) {
+            adicionaDespesa();
+            
+        } else if (request.getParameter("parametro").equals("excluirDespesa")) {
+            excluirDespesa();
         }
 
     }
@@ -582,12 +596,46 @@ public class controlador extends HttpServlet {
         int idComp = Integer.parseInt(requisicao.getParameter("idComp"));
         int idModal = Integer.parseInt(requisicao.getParameter("idModal"));
         String retorno = new CompeticaoDAO().excluirPercurso(idComp, idModal);
-        requisicao.setAttribute("paginaretorno", "cadastroModalidades.jsp");
-        if (retorno == null) {
-            encaminharPagina("sucesso.jsp");
-        } else {
-            encaminharPagina("erro.jsp");
-        }
+    }
+    
+    private void adicionaPercurso() throws IOException{
+        int idComp = Integer.parseInt(requisicao.getParameter("idComp"));
+        Modalidades m = (Modalidades) new ModalidadesDAO().consultarId(Integer.parseInt(requisicao.getParameter("idModal")));
+        int km = Integer.parseInt(requisicao.getParameter("km"));
+        Percurso p = new Percurso(idComp, m.getIdModalidades(), km);
+        String retorno = new CompeticaoDAO().salvarPercurso(p);
+        
+        resposta.getWriter().println( "<tr>" +
+                                        "<td>"+ m.getNome() + "</td>" +
+                                        "<td>"+ km + "</td>" +
+                                        "<td><a href=\"/CompetitionsWEB/controlador?parametro=excluirPercurso&idComp=" + idComp + "&idModal=" + m.getIdModalidades() + "\">Remover</a></td>" +
+                                    "</tr>" );
+    }
+    
+    private void adicionaDespesa() throws IOException{
+        int idComp = Integer.parseInt(requisicao.getParameter("idComp"));
+        TiposDespesas td = (TiposDespesas) new TiposDespesasDAO().consultarId(Integer.parseInt(requisicao.getParameter("idDespesa")));
+        int valor = Integer.parseInt(requisicao.getParameter("valor"));
+        String observacao = requisicao.getParameter("obs");
+        Despesa d = new Despesa();
+        d.setCompeticao(idComp);
+        d.setDespesa(td.getIdTiposDespesas());
+        d.setValor(valor);
+        d.setObservacao(observacao);
+        String retorno = new CompeticaoDAO().salvarDespesa(d);
+        
+        resposta.getWriter().println( "<tr>" +
+                                        "<td>"+ td.getNome()+ "</td>" +
+                                        "<td>"+ valor + "</td>" +
+                                        "<td>"+ observacao + "</td>" +
+                                        "<td><a href=\"/CompetitionsWEB/controlador?parametro=excluirDespesa&idComp=" + idComp + "&idDespesa=" + td.getIdTiposDespesas()+ "\">Remover</a></td>" +
+                                    "</tr>" );
+    }
+    
+    private void excluirDespesa() {
+        int idComp = Integer.parseInt(requisicao.getParameter("idComp"));
+        int idDespesa = Integer.parseInt(requisicao.getParameter("idDespesa"));
+        String retorno = new CompeticaoDAO().excluirDespesa(idComp, idDespesa);
     }
     
     /**

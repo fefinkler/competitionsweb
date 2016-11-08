@@ -109,7 +109,7 @@
         
         <div class="container tab-pane form-horizontal">
             
-                <input type="hidden" name="id" value="<%= comp.getId()%>">
+                <input type="hidden" name="id" id="idComp" value="<%= comp.getId()%>">
 
                 <div class="form-group">
                     <label for="nome">Nome:</label>&nbsp;

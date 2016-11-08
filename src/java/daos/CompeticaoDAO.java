@@ -355,7 +355,7 @@ public class CompeticaoDAO implements IDAO {
             resultadoQ = st.executeQuery(sql);
 
             while (resultadoQ.next()) {
-                Percurso p = new Percurso(resultadoQ.getInt("ref_competicao"), resultadoQ.getInt("ref_modalidade"), resultadoQ.getDouble("km"));
+                Percurso p = new Percurso(resultadoQ.getInt("ref_competicao"), resultadoQ.getInt("ref_modalidades"), resultadoQ.getDouble("km"));
                 percursos.add(p);
             }
             return percursos;
@@ -626,12 +626,11 @@ public class CompeticaoDAO implements IDAO {
         return retorno;
     }
 
-    public String excluirDespesa(int competicao, String despesa) {
+    public String excluirDespesa(int competicao, int despesa) {
         String retorno = null;
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-            String sql = "DELETE FROM despesas WHERE ref_competicao = " + competicao + " AND ref_tipo_despesas = "
-                    + " (SELECT idtipo_despesas FROM tipo_despesas WHERE nome = '" + despesa + "')";
+            String sql = "DELETE FROM despesas WHERE ref_competicao = " + competicao + " AND ref_tipo_despesas = " + despesa + "";
             System.out.println("SQL: " + sql);
             int resultado = st.executeUpdate(sql);
         } catch (Exception e) {

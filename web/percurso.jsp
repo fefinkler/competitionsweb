@@ -21,31 +21,69 @@
         <title>TMT</title>
 
         <%
-            Competicao art = (Competicao) request.getAttribute("competicao");
-            if (art == null) {
-                art = new Competicao();
+            Competicao competPer = (Competicao) request.getAttribute("competicao");
+            if (competPer == null) {
+                competPer = new Competicao();
             }
 
         %>
         <script lang="text/javascript">
 
-            // funcao associada a mudanca de valor na combo Estados
-            $(document).ready(function () {
+            function carregaModalidades( )
+            {
+                $.ajax({
+                    url: "/CompetitionsWEB/controlador?parametro=getModalidades",
+                    cache: false,
+                    success: function (html) {
+                        $("#comboModalidades").empty();
+                        $("#comboModalidades").append(html);
+                    }
+                });
+            }
+            function adicionaPercurso()
+            {
+                var idModal = $('#comboModal').val();
+                var km = $('#dist').val();
+                var idComp = $('#idComp').val();
 
-                function carregaModalidades( )
-                {
+                if (idModal && km && idComp) {
                     $.ajax({
-                        url: "/CompetitionsWEB/controlador?parametro=getModalidades",
+                        type: "post",
+                        url: "/CompetitionsWEB/controlador?parametro=addPercurso",
+                        data: "idModal=" + idModal + "&km=" + km + "&idComp=" + idComp,
                         cache: false,
-                        success: function (html) {
-                            $("#comboModalidades").empty();
-                            $("#comboModalidades").append(html);
-
+                        success: function (compet) {
+                            $( '#table-percurso' ).append( compet );
+                            $('#comboModal').val(0);
+                            $('#dist').val("");
                         }
                     });
+                } else {
+                    swal("Selecione uma modalidade e defina sua distância!");
                 }
+            }
+            
+            function removePercurso( elem, idComp, idModal )
+            {
+                if (idModal && idComp) {
+                    $.ajax({
+                        type: "post",
+                        url: "/CompetitionsWEB/controlador?parametro=excluirPercurso",
+                        data: "idModal=" + idModal + "&idComp=" + idComp,
+                        cache: false,
+                        success: function () {
+                           $( elem ).parent().parent().remove();
+                        }
+                    });
+                } else {
+                    swal("Erro ao remover Modalidade!");
+                }
+            }
+            
+            $(document).ready(function () {
                 carregaModalidades();
             });
+            
         </script>
     </head>
     <body>
@@ -60,19 +98,19 @@
                         <label for="dist">Distância:</label>&nbsp;
                         <input type="text" class="form-control" name="dist" id="dist"> &nbsp;
                     </div>
-                    <div><button class="btn btn-block">Adicionar</button></div>
+                    <div><input type="button" class="btn btn-block" role="button" value="Adicionar" onclick="adicionaPercurso()"></div>
                 </div>
 
 
 
                 <div class="form-group">
-                    <table>
-                        <tr>
+                    <table id="table-percurso" class="table table-striped">
+                        <thead class="header">
                             <th>Modalidade</th>
                             <th>Distância</th>
-                        </tr>
+                        </thead>
                         <%                            
-                            ArrayList<Percurso> percursos = new CompeticaoDAO().consultarPercurso(art);
+                            ArrayList<Percurso> percursos = new CompeticaoDAO().consultarPercurso(competPer);
                             for (int i = 0; i < percursos.size(); i++) {
                                 Percurso p = (Percurso) percursos.get(i);
                                 Modalidades m = (Modalidades) new ModalidadesDAO().consultarId(p.getModalidade());
@@ -81,7 +119,7 @@
                         <tr>
                             <td><%= m.getNome()%></td>
                             <td><%= p.getKm()%></td>
-                            <td><a href="/CompetitionsWEB/controlador?parametro=excluirPercurso&idComp=<%=p.getCompeticao()%>&idModal=<%=p.getModalidade()%>">Remover</a></td>
+                            <td><a role="button" onclick="removePercurso( this, <%=p.getCompeticao()%>, <%=p.getModalidade()%> )">Remover</a></td>
                         </tr>
                         <%}%>
                     </table>
