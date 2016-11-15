@@ -11,7 +11,7 @@ package entidades;
  */
 public class Modalidades {
     private int idModalidades;
-    private String nome;
+    private String nome = "";
     private boolean ativo;
 
     public int getIdModalidades() {

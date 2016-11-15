@@ -50,9 +50,10 @@
                             <ul class="dropdown-menu">
                                 <li><a href="menuCompeticoes.jsp?active=l">Competições</a></li>
                                 <li role="separator" class="divider"></li>
+                                <li><a href="cadastroAtletas.jsp">Atletas</a></li>
+                                <li><a href="cadastroLocais.jsp?active=c">Locais</a></li>
                                 <li><a href="cadastroModalidades.jsp">Modalidades</a></li>
                                 <li><a href="cadastroTiposDespesas.jsp">Tipos Despesas</a></li>
-                                <li><a href="cadastroLocais.jsp?active=c">Locais</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">

@@ -12,8 +12,8 @@ package entidades;
 public class Pais {
     
     private int idpais;
-    private String sigla;
-    private String nome;
+    private String sigla = "";
+    private String nome = "";
     private boolean ativo;
 
     public String getSigla() {

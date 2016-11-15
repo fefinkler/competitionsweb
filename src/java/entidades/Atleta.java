@@ -14,22 +14,22 @@ import java.sql.Date;
 public class Atleta {
     
     private int idatleta;
-    private String nome;
+    private String nome = "";
     private Date dtnasc;
-    private String cpf;
-    private String rg;
-    private String tipoSang;
-    private String telefone;
-    private String email;
-    private String endereco;
-    private String cep;
-    private String parente;
-    private String telefoneP;
-    private String alergias;
-    private String observacoes;
+    private String cpf = "";
+    private String rg = "";
+    private String tipoSang = "";
+    private String telefone = "";
+    private String email = "";
+    private String endereco = "";
+    private String cep = "";
+    private String parente = "";
+    private String telefoneP = "";
+    private String alergias = "";
+    private String observacoes = "";
     private int cidade;
-    private String login;
-    private String senha;
+    private String login = "";
+    private String senha = "";
     private boolean ativo;
 
     public int getIdatleta() {

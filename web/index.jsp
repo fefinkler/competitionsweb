@@ -38,5 +38,5 @@
 -- correção link Cidades -- não funcionou
 -- Limpar campos PRETTO -- não funcionou
 -- Campo de Busca OKK DataTables
--- colocar vazio ("") na inicialização das Strings das Entidades
+-- colocar vazio ("") na inicialização das Strings das Entidades OKK
 -->

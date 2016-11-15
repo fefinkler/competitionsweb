@@ -11,8 +11,8 @@ package entidades;
  */
 public class Estado {
     private int idestado;
-    private String sigla;
-    private String nome;
+    private String sigla = "";
+    private String nome = "";
     private int pais;
     private boolean ativo;
 

@@ -12,7 +12,7 @@ package entidades;
 public class TiposDespesas {
     
     private int idTiposDespesas;
-    private String nome;
+    private String nome = "";
     private boolean ativo;
 
     public int getIdTiposDespesas() {

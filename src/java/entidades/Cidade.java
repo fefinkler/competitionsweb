@@ -12,7 +12,7 @@ package entidades;
 public class Cidade {
   
     private int idcidade;
-    private String nome;
+    private String nome = "";
     private int estado;
     private boolean ativo;
 

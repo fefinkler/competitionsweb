@@ -85,7 +85,13 @@ public class controlador extends HttpServlet {
         requisicao = request;
         resposta = response;
         
-        if (request.getParameter("parametro").equals("editarModalidade")) {
+        if (request.getParameter("parametro").equals("editarAtleta")) {
+            editarAtleta();
+        } else if (request.getParameter("parametro").equals("excluirAtleta")) {
+            excluirAtleta();
+        } else if (request.getParameter("parametro").equals("inativarAtleta")) {
+            inativarAtleta();
+        }if (request.getParameter("parametro").equals("editarModalidade")) {
             editarModalidade();
         } else if (request.getParameter("parametro").equals("excluirModalidade")) {
             excluirModalidade();
@@ -164,6 +170,9 @@ public class controlador extends HttpServlet {
         if (request.getParameter("parametro").equals("cadastraModalidade")) {
             cadastrarModalidade();
 
+        } else if (request.getParameter("parametro").equals("cadastraAtleta")) {
+            cadastrarAtleta();
+
         } else if (request.getParameter("parametro").equals("cadastraTipoDespesa")) {
             cadastrarTiposDespesas();
 
@@ -195,10 +204,10 @@ public class controlador extends HttpServlet {
             excluirDespesa();
             
         } else if (requisicao.getParameter("parametro").equals("addAtleta")) {
-            adicionaAtleta();
+            adicionarNaEquipe();
             
         } else if (request.getParameter("parametro").equals("excluirAtleta")) {
-            excluirAtleta();
+            excluirDaEquipe();
             
         }
 
@@ -225,7 +234,75 @@ public class controlador extends HttpServlet {
         sessao.invalidate();
         encaminharPagina("index.jsp");
     }
+    
+    private void cadastrarAtleta() {
+        Atleta a = new Atleta();
+        a.setIdatleta(Integer.parseInt(requisicao.getParameter("id")));
+        a.setNome(requisicao.getParameter("nome"));
+        a.setAtivo(requisicao.getParameter("ativo") != null);
+        a.setDtnasc((Date) new CompeticaoDAO().converteData(requisicao.getParameter("datanasc")));
+        a.setCpf(requisicao.getParameter("cpf"));
+        a.setRg(requisicao.getParameter("rg"));
+        a.setTipoSang(requisicao.getParameter("tiposang"));
+        a.setAlergias(requisicao.getParameter("alergias"));
+        a.setTelefone(requisicao.getParameter("telefone"));
+        a.setEmail(requisicao.getParameter("email"));
+        a.setEndereco(requisicao.getParameter("endereco"));
+        a.setCep(requisicao.getParameter("cep"));
+        a.setCidade(Integer.parseInt(requisicao.getParameter("cidade")));
+        a.setParente(requisicao.getParameter("parente"));
+        a.setTelefoneP(requisicao.getParameter("telefonep"));
+        a.setObservacoes(requisicao.getParameter("obs"));
+        a.setLogin(requisicao.getParameter("login"));
+        a.setSenha(requisicao.getParameter("senha"));
 
+        String retorno;
+        if (a.getIdatleta()== 0) {
+            retorno = new AtletaDAO().salvar(a);
+        } else {
+            retorno = new AtletaDAO().atualizar(a);
+        }
+        
+        requisicao.setAttribute("paginaretorno", "cadastroAtletas.jsp?active=l");
+        if (retorno == null) {
+            encaminharPagina("sucesso.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void editarAtleta() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        Atleta a = (Atleta) new AtletaDAO().consultarId(id);
+
+        if (a != null) {
+            requisicao.setAttribute("atleta", a);
+            encaminharPagina("cadastroAtletas.jsp?active=c");
+        }
+    }
+
+    private void excluirAtleta() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String retorno = new AtletaDAO().excluir(id);
+        requisicao.setAttribute("paginaretorno", "cadastroAtletas.jsp?active=l");
+        if (retorno == null) {
+            encaminharPagina("sucesso.jsp");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
+    private void inativarAtleta() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
+        String retorno = new AtletaDAO().inativar(id);
+        requisicao.setAttribute("paginaretorno", "cadastroAtletas.jsp?active=l");
+        if (retorno == null) {
+            encaminharPagina("cadastroAtletas.jsp?active=l");
+        } else {
+            encaminharPagina("erro.jsp");
+        }
+    }
+    
     private void cadastrarModalidade() {
         int id = Integer.parseInt(requisicao.getParameter("id"));
         String nome = requisicao.getParameter("nome");
@@ -593,7 +670,7 @@ public class controlador extends HttpServlet {
     private void excluirCompeticao() {
         int id = Integer.parseInt(requisicao.getParameter("id"));
         String retorno = new CompeticaoDAO().excluir(id);
-        requisicao.setAttribute("paginaretorno", "cadastroCompeticoes.jsp");
+        requisicao.setAttribute("paginaretorno", "menuCompeticoes.jsp?active=l");
         if (retorno == null) {
             encaminharPagina("sucesso.jsp");
         } else {
@@ -647,7 +724,7 @@ public class controlador extends HttpServlet {
         String retorno = new CompeticaoDAO().excluirDespesa(idComp, idDespesa);
     }
     
-    private void adicionaAtleta() throws IOException{
+    private void adicionarNaEquipe() throws IOException{
         int idComp = Integer.parseInt(requisicao.getParameter("idComp"));
         Atleta a = (Atleta) new AtletaDAO().consultarId(Integer.parseInt(requisicao.getParameter("idAtleta")));
         Cidade c = (Cidade) new CidadeDAO().consultarId(a.getCidade());
@@ -661,7 +738,7 @@ public class controlador extends HttpServlet {
                                         "</tr>" );
     }
     
-    private void excluirAtleta() {
+    private void excluirDaEquipe() {
         int idComp = Integer.parseInt(requisicao.getParameter("idComp"));
         int idAtleta = Integer.parseInt(requisicao.getParameter("idAtleta"));
         String retorno = new CompeticaoDAO().excluirEquipe(idComp, idAtleta);

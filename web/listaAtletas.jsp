@@ -1,12 +1,14 @@
 <%-- 
-    Document   : listaCompeticoes
-    Created on : 23/10/2016, 17:32:24
+    Document   : listaAtletas
+    Created on : 15/11/2016, 17:02:52
     Author     : Fernanda Finkler
 --%>
 
+<%@page import="daos.CidadeDAO"%>
+<%@page import="entidades.Cidade"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="daos.CompeticaoDAO"%>
-<%@page import="entidades.Competicao"%>
+<%@page import="entidades.Atleta"%>
+<%@page import="daos.AtletaDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,45 +27,48 @@
         <script type="text/javascript" src="boots/js/datatables.net-buttons/js/buttons.colVis.js"></script>        
         <script type="text/javascript" src="boots/js/datatables.net-buttons/js/buttons.html5.js"></script>        
         <script type="text/javascript" src="boots/js/datatables.net-buttons/js/buttons.print.js"></script>
-
     </head>
     <body>
         <div class="table-responsive">
-            <table id="table-competitions" class="table table-striped">
+            <table id="table-atletas" class="table table-striped">
                 <thead class="header">
                 <th>ID</th>
-                <th>Data</th>
                 <th>Nome</th>
+                <th>Data Nascimento</th>
+                <th>Cidade</th>
+                <th>Telefone</th>
                 <th>Situação</th>
                 <th>Editar</th>
                 <th>Excluir</th>
                 </thead>
                 <tfoot class="header">
                 <th>ID</th>
-                <th>Data</th>
                 <th>Nome</th>
+                <th>Data Nascimento</th>
+                <th>Cidade</th>
+                <th>Telefone</th>
                 <th>Situação</th>
                 <th>Editar</th>
                 <th>Excluir</th>
                 </tfoot>
                 <tbody>
                     <%
-                        ArrayList<Object> competicoes = new CompeticaoDAO().consultarTodos();
-                        for (int i = 0; i < competicoes.size(); i++) {
-                            Competicao competicao = (Competicao) competicoes.get(i);
+                        ArrayList<Object> atletas = new AtletaDAO().consultarTodos();
+                        for (int i = 0; i < atletas.size(); i++) {
+                            Atleta atletaL = (Atleta) atletas.get(i);
+                            Cidade cidadeAtleta = (Cidade) new CidadeDAO().consultarId(atletaL.getCidade());
+
                             String status = "";
-                            if (competicao.getStatus() == 'p') {
-                                status = "Programada";
-                            } else if (competicao.getStatus() == 'r') {
-                                status = "Realizada";
-                            } else if (competicao.getStatus() == 's') {
-                                status = "Suspensa";
+                            if (atletaL.isAtivo()) {
+                                status = "Ativo";
+                            } else {
+                                status = "Inativo";
                             }
 
                             String dia;
-                            if (competicao.getDia() != null) {
+                            if (atletaL.getDtnasc() != null) {
                                 SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                                dia = df.format(competicao.getDia());
+                                dia = df.format(atletaL.getDtnasc());
                             } else {
                                 dia = "n/d";
                             }
@@ -71,12 +76,25 @@
 
                     %>
                     <tr>
-                        <td><%=competicao.getId()%></td>
+                        <td><%=atletaL.getIdatleta()%></td>
+                        <td><%=atletaL.getNome()%></td>
                         <td><%= dia%></td>
-                        <td><%=competicao.getNome()%></td>
+                        <td><%=cidadeAtleta.getNome()%></td>
+                        <td><%=atletaL.getTelefone()%></td>
                         <td><%= status%></td>
-                        <td><a href="/CompetitionsWEB/controlador?parametro=editarCompeticao&id=<%=competicao.getId()%>">Editar</a></td>
-                        <td><a OnClick="return confirm('Deseja realmente excluir este registro?')" href="/CompetitionsWEB/controlador?parametro=excluirCompeticao&id=<%=competicao.getId()%>">Excluir</a></td>
+                        <td><a href="/CompetitionsWEB/controlador?parametro=editarAtleta&id=<%=atletaL.getIdatleta()%>">Editar</a></td>
+                        <%
+                            String msg = "";
+                            String parametro = "";
+                            if (new AtletaDAO().possuiVinculos(atletaL.getIdatleta())) {
+                                msg = "Este registro possui vínculos, não é possível excluir. Deseja inativá-lo?";
+                                parametro = "inativar";
+                            } else {
+                                msg = "Deseja realmente excluir este registro?";
+                                parametro = "excluir";
+                            }
+                        %>
+                        <td><a OnClick="return confirm('<%=msg%>')" href="/CompetitionsWEB/controlador?parametro=<%=parametro%>Atleta&id=<%=atletaL.getIdatleta()%>">Excluir</a></td>
                     </tr>
                     <%
                         }
@@ -88,12 +106,12 @@
     </body>
     <script type="text/javascript">
 
-        $('#table-competitions tfoot th').each(function () {
+        $('#table-atletas tfoot th').each(function () {
             var title = $(this).text();
             $(this).html('<input type="text" style="width:100%;" class="form-control" placeholder="' + title + '" />');
         });
 
-        var table = $('#table-competitions').DataTable({
+        var table = $('#table-atletas').DataTable({
             columnDefs: [],
             processing: true,
             dom: 'Bfrtip',
@@ -102,19 +120,19 @@
                 {
                     extend: 'pdf',
                     text: '<i class="fa fa-file-pdf-o"></i>&nbsp;PDF',
-                    title: 'Relatório Competicões',
+                    title: 'Relatório Atletas',
                     className: 'btn btn-default'
                 },
                 {
                     extend: 'excel',
                     text: '<i class="fa fa-file-excel-o"></i>&nbsp;Excel',
-                    title: 'Relatório Competicões',
+                    title: 'Relatório Atletas',
                     className: 'btn btn-default'
                 }
 //                    {
 //                        extend: 'print',
 //                        text: '<i class="fa fa-print"></i>&nbsp;Print',
-//                        title: 'Relatorio Competicoes',
+//                        title: 'Relatório Atletas',
 //                        className: 'btn btn-default'
 //                    } 
             ]
@@ -131,11 +149,11 @@
 
         $(".dataTables_filter").remove();
 
-        $('.dt-buttons').append('<input type="button" name="Novo" class="btn btn-primary" value="Nova Competição" style="float:right" onClick="novaCompeticao()">');
+        $('.dt-buttons').append('<input type="button" name="NovoAtleta" class="btn btn-primary" value="Novo Atleta" style="float:right" onClick="novoAtleta()">');
 
-        function novaCompeticao() {
-            $ ('#dadosCompeticao').find('input, select').not('input[type=submit], input[type=button]').val('');
-            $ ('#dadosCompeticao').find('#programada').click();
+        function novoAtleta() {
+            $ ('#dadosAtleta').find('input, select').not('input[type=submit], input[type=button]').val('');
+            //$ ('#dadosAtleta').find('#programada').click();
             //window.location = "/CompetitionsWEB/controlador?parametro=editarCompeticao&id=2";
         }
     </script>

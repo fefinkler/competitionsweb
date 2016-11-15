@@ -1,6 +1,6 @@
 <%-- 
-    Document   : cadastroCompeticoes
-    Created on : 23/10/2016, 17:31:51
+    Document   : cadastroAtletas
+    Created on : 15/11/2016, 16:36:44
     Author     : Fernanda Finkler
 --%>
 
@@ -30,35 +30,35 @@
     </head>
     <body>
         <br>
-        <h1>Competições</h1>
+        <h1>Atletas</h1>
         <%
-            Competicao compet = (Competicao) request.getAttribute("competicao");
-            if (compet == null) {
-                compet = new Competicao();
+            Atleta atleta = (Atleta) request.getAttribute("atleta");
+            if (atleta == null) {
+                atleta = new Atleta();
             }
-            String classLista = "";
-            String classCadastro = "";
-            String classLista2 = "";
-            String classCadastro2 = "";
+            String classListaA = "";
+            String classCadastroA = "";
+            String classListaA2 = "";
+            String classCadastroA2 = "";
             
             String classActive = (String)  request.getParameter("active");
             
             if (classActive != null && classActive.equalsIgnoreCase("c")){
-                classCadastro = "active";
-                classCadastro2 = " in active";
+                classCadastroA = "active";
+                classCadastroA2 = " in active";
             } else {
-                classLista = "active";
-                classLista2 = "in active";
+                classListaA = "active";
+                classListaA2 = "in active";
             } 
         %>
-        <div class ="container">
+       <div class ="container">
             <ul class="nav nav-tabs">
-                <li class="<%= classLista %>"><a data-toggle="tab" href="#lista">Lista</a></li>
-                <li class="<%= classCadastro %>"><a data-toggle="tab" href="#cadastro">Cadastro</a></li>
+                <li class="<%= classListaA %>"><a data-toggle="tab" href="#listaAtletas">Lista</a></li>
+                <li class="<%= classCadastroA %>"><a data-toggle="tab" href="#cadastroAtletas">Cadastro</a></li>
             </ul>
             <div class="tab-content">
-                <div id="lista" class="tab-pane fade <%= classLista2 %>"><%@include file ="listaCompeticoes.jsp" %></div>
-                <div id="cadastro" class="tab-pane fade <%= classCadastro2 %>"><%@include file ="cadastroCompeticoes.jsp" %></div>
+                <div id="listaAtletas" class="tab-pane fade <%= classListaA2 %>"><%@include file ="listaAtletas.jsp" %></div>
+                <div id="cadastroAtletas" class="tab-pane fade <%= classCadastroA2 %>"><%@include file ="cadastroAtletas.jsp" %></div>
             </div>
         </div>
     </body>
