@@ -16,6 +16,7 @@ import entidades.Atleta;
 import entidades.Cidade;
 import entidades.Competicao;
 import entidades.Despesa;
+import entidades.Equipe;
 import entidades.Estado;
 import entidades.Modalidades;
 import entidades.Pais;
@@ -156,6 +157,7 @@ public class controlador extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
+        response.setCharacterEncoding( "UTF-8" );        
         requisicao = request;
         resposta = response;
 
@@ -191,6 +193,13 @@ public class controlador extends HttpServlet {
             
         } else if (request.getParameter("parametro").equals("excluirDespesa")) {
             excluirDespesa();
+            
+        } else if (requisicao.getParameter("parametro").equals("addAtleta")) {
+            adicionaAtleta();
+            
+        } else if (request.getParameter("parametro").equals("excluirAtleta")) {
+            excluirAtleta();
+            
         }
 
     }
@@ -608,8 +617,8 @@ public class controlador extends HttpServlet {
         resposta.getWriter().println( "<tr>" +
                                         "<td>"+ m.getNome() + "</td>" +
                                         "<td>"+ km + "</td>" +
-                                        "<td><a href=\"/CompetitionsWEB/controlador?parametro=excluirPercurso&idComp=" + idComp + "&idModal=" + m.getIdModalidades() + "\">Remover</a></td>" +
-                                    "</tr>" );
+                                        "<td><a role=\"button\" onclick=\"removePercurso( this, " + idComp + ", " + m.getIdModalidades() + ")\">Remover</a></td>" +
+                                      "</tr>" );
     }
     
     private void adicionaDespesa() throws IOException{
@@ -628,14 +637,34 @@ public class controlador extends HttpServlet {
                                         "<td>"+ td.getNome()+ "</td>" +
                                         "<td>"+ valor + "</td>" +
                                         "<td>"+ observacao + "</td>" +
-                                        "<td><a href=\"/CompetitionsWEB/controlador?parametro=excluirDespesa&idComp=" + idComp + "&idDespesa=" + td.getIdTiposDespesas()+ "\">Remover</a></td>" +
-                                    "</tr>" );
+                                        "<td><a role=\"button\" onclick=\"removeDespesa( this, " + idComp + ", " + td.getIdTiposDespesas() + ")\">Remover</a></td>" +
+                                      "</tr>" );
     }
     
     private void excluirDespesa() {
         int idComp = Integer.parseInt(requisicao.getParameter("idComp"));
         int idDespesa = Integer.parseInt(requisicao.getParameter("idDespesa"));
         String retorno = new CompeticaoDAO().excluirDespesa(idComp, idDespesa);
+    }
+    
+    private void adicionaAtleta() throws IOException{
+        int idComp = Integer.parseInt(requisicao.getParameter("idComp"));
+        Atleta a = (Atleta) new AtletaDAO().consultarId(Integer.parseInt(requisicao.getParameter("idAtleta")));
+        Cidade c = (Cidade) new CidadeDAO().consultarId(a.getCidade());
+        Equipe e = new Equipe(idComp, a.getIdatleta());
+        String retorno = new CompeticaoDAO().salvarEquipe(e);
+        
+        resposta.getWriter().println( "<tr>" +
+                                        "<td>"+ a.getNome() + "</td>" +
+                                        "<td>"+ c.getNome() + "</td>" +
+                                        "<td><a role=\"button\" onclick=\"removaAtleta(this, " + idComp + ", " + a.getIdatleta() + " \">Remover</a></td>" +
+                                        "</tr>" );
+    }
+    
+    private void excluirAtleta() {
+        int idComp = Integer.parseInt(requisicao.getParameter("idComp"));
+        int idAtleta = Integer.parseInt(requisicao.getParameter("idAtleta"));
+        String retorno = new CompeticaoDAO().excluirEquipe(idComp, idAtleta);
     }
     
     /**

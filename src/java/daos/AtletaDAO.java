@@ -148,7 +148,73 @@ public class AtletaDAO implements IDAO {
 
     @Override
     public ArrayList<Object> consultarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Object> atletas = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM atleta ORDER BY nome";
+            ResultSet resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+
+            while (resultadoQ.next()) {
+                Atleta a = new Atleta();
+                a.setIdatleta(resultadoQ.getInt("idatleta"));
+                a.setNome(resultadoQ.getString("nome"));
+                a.setDtnasc(resultadoQ.getDate("dtnasc"));
+                a.setRg(resultadoQ.getString("rg"));
+                a.setCpf(resultadoQ.getString("cpf"));
+                a.setTipoSang(resultadoQ.getString("tiposang"));
+                a.setTelefone(resultadoQ.getString("telefone"));
+                a.setEmail(resultadoQ.getString("email"));
+                a.setEndereco(resultadoQ.getString("endereco"));
+                a.setCep(resultadoQ.getString("cep"));
+                a.setParente(resultadoQ.getString("parente"));
+                a.setTelefoneP(resultadoQ.getString("contatoParente"));
+                a.setAlergias(resultadoQ.getString("alergias"));
+                a.setCidade(resultadoQ.getInt("ref_cidade"));
+                a.setObservacoes(resultadoQ.getString("observacoes"));
+                a.setLogin(resultadoQ.getString("login"));
+                a.setSenha(resultadoQ.getString("senha"));
+                a.setAtivo(resultadoQ.getBoolean("ativo"));
+
+                atletas.add(a);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consulta todos atletas: " + e);
+        }
+        return atletas;
+    }
+    
+    public ArrayList<Atleta> consultarTodosAtivos() {
+        ArrayList<Atleta> atletas = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM atleta WHERE ativo = 'true' ORDER BY nome";
+            ResultSet resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+
+            while (resultadoQ.next()) {
+                Atleta a = new Atleta();
+                a.setIdatleta(resultadoQ.getInt("idatleta"));
+                a.setNome(resultadoQ.getString("nome"));
+                a.setDtnasc(resultadoQ.getDate("dtnasc"));
+                a.setRg(resultadoQ.getString("rg"));
+                a.setCpf(resultadoQ.getString("cpf"));
+                a.setTipoSang(resultadoQ.getString("tiposang"));
+                a.setTelefone(resultadoQ.getString("telefone"));
+                a.setEmail(resultadoQ.getString("email"));
+                a.setEndereco(resultadoQ.getString("endereco"));
+                a.setCep(resultadoQ.getString("cep"));
+                a.setParente(resultadoQ.getString("parente"));
+                a.setTelefoneP(resultadoQ.getString("contatoParente"));
+                a.setAlergias(resultadoQ.getString("alergias"));
+                a.setCidade(resultadoQ.getInt("ref_cidade"));
+                a.setObservacoes(resultadoQ.getString("observacoes"));
+                a.setLogin(resultadoQ.getString("login"));
+                a.setSenha(resultadoQ.getString("senha"));
+                a.setAtivo(resultadoQ.getBoolean("ativo"));
+
+                atletas.add(a);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consulta todos atletas: " + e);
+        }
+        return atletas;
     }
 
     @Override
@@ -274,7 +340,7 @@ public class AtletaDAO implements IDAO {
 
         // permite seleção de apenas uma linha da tabela
         tabela.setSelectionMode(0);
-        
+
         //alinhamento da conteúdo de uma coluna
         DefaultTableCellRenderer direita = new DefaultTableCellRenderer();
         direita.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -333,8 +399,8 @@ public class AtletaDAO implements IDAO {
         }
         return ok;
     }
-    
-    public int contaParticipacoes(int id){
+
+    public int contaParticipacoes(int id) {
         int qtde = 0;
         ResultSet resultadoQ;
         try {
@@ -342,7 +408,7 @@ public class AtletaDAO implements IDAO {
             String sql = "SELECT count(*) FROM equipe WHERE ref_atleta = " + id + "";
             System.out.println("SQL: " + sql);
             resultadoQ = st.executeQuery(sql);
-            if (resultadoQ.next()){
+            if (resultadoQ.next()) {
                 qtde = resultadoQ.getInt(1);
             }
         } catch (Exception e) {
@@ -350,7 +416,7 @@ public class AtletaDAO implements IDAO {
         }
         return qtde;
     }
-    
+
     public boolean podeAcessar(String login, String senha) {
         try {
             String sql = "SELECT * FROM atleta WHERE login = '" + login + "' AND senha = '" + senha + "';";

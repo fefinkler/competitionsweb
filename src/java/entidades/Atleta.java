@@ -186,4 +186,9 @@ public class Atleta {
         this.ativo = ativo;
     }
 
+    @Override
+    public String toString() {
+        return nome; //To change body of generated methods, choose Tools | Templates.
+    }
+ 
 }

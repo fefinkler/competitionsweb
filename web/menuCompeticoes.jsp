@@ -30,7 +30,7 @@
     </head>
     <body>
         <br>
-        <h1>Cadastro de Competicoes</h1>
+        <h1>Cadastro de Competições</h1>
         <%
             Competicao compet = (Competicao) request.getAttribute("competicao");
             if (compet == null) {

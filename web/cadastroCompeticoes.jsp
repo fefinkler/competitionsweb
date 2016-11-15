@@ -39,7 +39,7 @@
                 <li><a data-toggle="tab" href="#TabDespesas">Despesas</a></li>
             </ul>
   
-            <form class="" action="/CompetitionsWEB/controlador?parametro=cadastraCompeticao" method="post" name="dados">
+            <form class="" id="dadosCompeticao" action="/CompetitionsWEB/controlador?parametro=cadastraCompeticao" method="post" name="dados">
                 <div class="tab-content" id="cad">
                     <div id="TabInfos" class="tab-pane fade in active"><%@include file ="infosCompeticoes.jsp" %></div>
                     <div id="TabPercurso" class="tab-pane fade"><%@include file ="percurso.jsp" %></div>
@@ -48,7 +48,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <input type="submit" name="Submit" class="formobjects" value="Salvar">
+                    <input type="submit" name="Submit" class="btn btn-primary" value="Salvar">
                 </div>   
             </form>
         

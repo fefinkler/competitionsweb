@@ -6,6 +6,7 @@
 package daos;
 
 import apoio.ConexaoBD;
+import entidades.Atleta;
 import entidades.Competicao;
 import entidades.Despesa;
 import entidades.Equipe;
@@ -386,61 +387,41 @@ public class CompeticaoDAO implements IDAO {
         }
     }
 
-    public void popularTabelaPercurso(JTable tabela, Competicao c) {
-        ResultSet resultadoQ;
-        // dados da tabela
-        Object[][] dadosTabela = null;
-        // cabecalho da tabela
-        Object[] cabecalho = new Object[2];
-        cabecalho[0] = "Modalidade";
-        cabecalho[1] = "Distância";
-        // cria matriz de acordo com nº de registros da tabela
+    public ArrayList<Atleta> consultarEquipe(Competicao c) {
+        ArrayList<Atleta> atletas = new ArrayList<>();
         try {
-            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT count(*) FROM percurso WHERE ref_competicao = " + c.getId());
-            resultadoQ.next();
-            dadosTabela = new Object[resultadoQ.getInt(1)][2];
-        } catch (Exception e) {
-            System.out.println("Erro ao consultar Percurso: " + e);
-        }
-        int lin = 0;
-        try {
-            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT nome, km FROM percurso, modalidades WHERE ref_modalidades = idmodalidades AND ref_competicao = " + c.getId());
-            while (resultadoQ.next()) {
-                dadosTabela[lin][0] = resultadoQ.getString("nome"); //poderia colocar o número da coluna (1)
-                dadosTabela[lin][1] = resultadoQ.getDouble("km");
-                lin++;
-            }
-        } catch (Exception e) {
-            System.out.println("problemas para popular tabela...");
-            System.out.println(e);
-        }
-        // configuracoes adicionais no componente tabela
-        tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
-            @Override
-            // quando retorno for FALSE, a tabela nao é editavel
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        });
-        // permite seleção de apenas uma linha da tabela
-        tabela.setSelectionMode(0);
-        // redimensiona as colunas de uma tabela
-        TableColumn column = null;
-        for (int i = 0; i < tabela.getColumnCount(); i++) {
-            column = tabela.getColumnModel().getColumn(i);
-            switch (i) {
-                case 0:
-                    column.setPreferredWidth(140);
-                    break;
-                case 1:
-                    column.setPreferredWidth(17);
-                    break;
-            }
-        }
-    }
+            String sql = "SELECT a.* FROM atleta a, equipe e WHERE a.idatleta = e.ref_atleta AND e.ref_competicao = " + c.getId() + " ORDER BY nome";
+            ResultSet resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
 
+            while (resultadoQ.next()) {
+                Atleta a = new Atleta();
+                a.setIdatleta(resultadoQ.getInt("idatleta"));
+                a.setNome(resultadoQ.getString("nome"));
+                a.setDtnasc(resultadoQ.getDate("dtnasc"));
+                a.setRg(resultadoQ.getString("rg"));
+                a.setCpf(resultadoQ.getString("cpf"));
+                a.setTipoSang(resultadoQ.getString("tiposang"));
+                a.setTelefone(resultadoQ.getString("telefone"));
+                a.setEmail(resultadoQ.getString("email"));
+                a.setEndereco(resultadoQ.getString("endereco"));
+                a.setCep(resultadoQ.getString("cep"));
+                a.setParente(resultadoQ.getString("parente"));
+                a.setTelefoneP(resultadoQ.getString("contatoParente"));
+                a.setAlergias(resultadoQ.getString("alergias"));
+                a.setCidade(resultadoQ.getInt("ref_cidade"));
+                a.setObservacoes(resultadoQ.getString("observacoes"));
+                a.setLogin(resultadoQ.getString("login"));
+                a.setSenha(resultadoQ.getString("senha"));
+                a.setAtivo(resultadoQ.getBoolean("ativo"));
+
+                atletas.add(a);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consulta atletas da equipe: " + e);
+        }
+        return atletas;
+    }
+    
     public String salvarEquipe(Equipe p) {
         String retorno = null;
         try {
@@ -471,128 +452,7 @@ public class CompeticaoDAO implements IDAO {
         return retorno;
     }
 
-    public void popularTabelaAtletas(JTable tabela, String criterio) {
-        ResultSet resultadoQ;
-        Object[][] dadosTabela = null;
-        Object[] cabecalho = new Object[4];
-        cabecalho[0] = "Código";
-        cabecalho[1] = "Nome";
-        cabecalho[2] = "Telefone";
-        cabecalho[3] = "Cidade";
-
-        try {
-            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery("SELECT count(*) FROM atleta WHERE ativo = 't' AND nome ILIKE '%" + criterio + "%'");
-
-            resultadoQ.next();
-
-            dadosTabela = new Object[resultadoQ.getInt(1)][4];
-
-        } catch (Exception e) {
-            System.out.println("Erro ao consultar: " + e);
-        }
-
-        int lin = 0;
-        try {
-            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT atleta.idatleta, atleta.nome, atleta.telefone, cidade.nome FROM atleta, cidade "
-                    + "WHERE atleta.ref_cidade = cidade.idcidade AND atleta.ativo = 't' AND atleta.nome ILIKE '%" + criterio + "%' ORDER BY atleta.nome");
-
-            while (resultadoQ.next()) {
-                dadosTabela[lin][0] = resultadoQ.getString(1);
-                dadosTabela[lin][1] = resultadoQ.getString(2);
-                dadosTabela[lin][2] = resultadoQ.getString(3);
-                dadosTabela[lin][3] = resultadoQ.getString(4);
-                lin++;
-            }
-        } catch (Exception e) {
-            System.out.println("problemas para popular tabela Atletas...");
-            System.out.println(e);
-        }
-
-        tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        });
-        tabela.setSelectionMode(0);
-        TableColumn column = null;
-        for (int i = 0; i < tabela.getColumnCount(); i++) {
-            column = tabela.getColumnModel().getColumn(i);
-            switch (i) {
-                case 0:
-                    column.setPreferredWidth(17);
-                    break;
-                case 1:
-                    column.setPreferredWidth(140);
-                    break;
-            }
-        }
-    }
-
-    public void popularTabelaEquipe(JTable tabela, Competicao c) {
-        ResultSet resultadoQ;
-        // dados da tabela
-        Object[][] dadosTabela = null;
-        // cabecalho da tabela
-        Object[] cabecalho = new Object[3];
-        cabecalho[0] = "Código";
-        cabecalho[1] = "Nome";
-        cabecalho[2] = "Cidade";
-        // cria matriz de acordo com nº de registros da tabela
-        try {
-            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT count(*) FROM equipe WHERE ref_competicao = " + c.getId());
-            resultadoQ.next();
-            dadosTabela = new Object[resultadoQ.getInt(1)][3];
-        } catch (Exception e) {
-            System.out.println("Erro ao consultar equipe: " + e);
-        }
-        int lin = 0;
-        try {
-            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT idatleta, atleta.nome as nome, cidade.nome as cidade FROM equipe, atleta, cidade "
-                    + "WHERE equipe.ref_atleta = atleta.idatleta "
-                    + "AND equipe.ref_competicao = " + c.getId() + " "
-                    + "AND atleta.ref_cidade = cidade.idcidade");
-            while (resultadoQ.next()) {
-                dadosTabela[lin][0] = resultadoQ.getInt("idatleta");
-                dadosTabela[lin][1] = resultadoQ.getString("nome");
-                dadosTabela[lin][2] = resultadoQ.getString("cidade");
-                lin++;
-            }
-        } catch (Exception e) {
-            System.out.println("problemas para popular tabela equipe...");
-            System.out.println(e);
-        }
-        // configuracoes adicionais no componente tabela
-        tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
-            @Override
-            // quando retorno for FALSE, a tabela nao é editavel
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        });
-        // permite seleção de apenas uma linha da tabela
-        tabela.setSelectionMode(0);
-        // redimensiona as colunas de uma tabela
-        TableColumn column = null;
-        for (int i = 0; i < tabela.getColumnCount(); i++) {
-            column = tabela.getColumnModel().getColumn(i);
-            switch (i) {
-                case 0:
-                    column.setPreferredWidth(60);
-                    break;
-                case 1:
-                    column.setPreferredWidth(245);
-                    break;
-                case 2:
-                    column.setPreferredWidth(195);
-                    break;
-            }
-        }
-    }
+    
 
     public String atualizaDistanciaTotal(int id) {
         String distanciaTotal = "0";
