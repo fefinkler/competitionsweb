@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HistóricoEquipe" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c9247ef6-a681-4100-a346-0badd1dec9fe">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="79"/>
+	<queryString>
+		<![CDATA[select c.*, SUM(km) as dist, ci.nome as cidade, es.sigla as estado, pais.nome as pais from competicao c, percurso p, cidade ci, estado es, pais
+WHERE c.idcompeticao = p.ref_competicao AND c.ref_cidade = ci.idcidade AND ci.ref_estado = es.idestado AND es.ref_pais = pais.idpais
+GROUP BY c.idcompeticao, ci.idcidade, es.idestado, pais.idpais ORDER BY c.dia]]>
+	</queryString>
+	<field name="idcompeticao" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="dia" class="java.sql.Date"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="ref_cidade" class="java.lang.Integer"/>
+	<field name="localidade" class="java.lang.String"/>
+	<field name="colocacao" class="java.lang.String"/>
+	<field name="premiacao" class="java.lang.String"/>
+	<field name="relato" class="java.lang.String"/>
+	<field name="dist" class="java.math.BigDecimal"/>
+	<field name="cidade" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="pais" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="79" uuid="b96cea80-cb10-45bb-9e90-8f41b7c4de60"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Histórico de Competições Realizadas]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="17" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="45" width="555" height="1" uuid="39813587-6425-4998-bb78-0fa103d137fd"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="90" y="4" width="49" height="20" uuid="0383cc3f-2ff6-48ac-8c34-93c3eee34a15"/>
+				<textFieldExpression><![CDATA[$F{dia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="236" y="4" width="278" height="20" uuid="5ea878cb-b1af-4a3a-94e7-3fc90927b16c"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="169" y="4" width="65" height="20" uuid="0d061050-a4c4-4fbc-bccc-715980e720e1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Competição:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="59" y="4" width="49" height="20" uuid="3e2f4fba-12d2-4040-98c2-c8eb9cea3776"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="234" y="38" width="116" height="20" uuid="70a7829e-51bc-45c3-bfa9-3268f15a1826"/>
+				<textFieldExpression><![CDATA[$F{colocacao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="170" y="38" width="60" height="20" uuid="9925502b-d9b8-42ee-a9b8-a58018516d31"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colocação:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="107" y="38" width="42" height="20" uuid="cd8be1ae-1982-43cc-8146-a3f93aa45de5"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{dist}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="59" y="38" width="54" height="20" uuid="804506bf-2f03-4953-9fc8-49e8e2fb4372"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Distância:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="96" y="71" width="87" height="20" uuid="6d441c05-5b17-40a4-81ba-ee63cd8bcba0"/>
+				<textFieldExpression><![CDATA[$F{cidade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="61" y="71" width="35" height="20" uuid="d3e3dcfe-d959-40b5-93f0-80f7314c70a4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Local:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="196" y="71" width="19" height="20" uuid="be0dafa0-3563-43d6-88c3-9684cf5176a5"/>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="186" y="71" width="10" height="20" uuid="b84c4906-01cb-4c5c-b177-97ca7b226eb5"/>
+				<text><![CDATA[ - ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="71" width="10" height="20" uuid="466ca8a2-33d2-46e7-acb3-d849e963fa83"/>
+				<text><![CDATA[ - ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="223" y="71" width="82" height="20" uuid="90dbac1b-82d3-4f46-9d5d-26c636dee979"/>
+				<textFieldExpression><![CDATA[$F{pais}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="110" width="555" height="1" uuid="8e556102-2469-41db-9e4c-0a7ca6225949"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="555" height="20" uuid="6c0a5853-421b-4e90-add5-1e530b51fed4"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Relatório gerado por Team Manager Tool]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

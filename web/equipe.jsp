@@ -106,8 +106,13 @@
                     <td><%= c.getNome()%></td>
                     <td><a role="button" onclick="removeAtleta(this, <%= competEquipe.getId()%>, <%=a.getIdatleta()%>)">Remover</a></td>
                 </tr>
-                <%}%>
+                
             </table>
         </div>
+            <BR>
+            <div class="form-group">
+                <input type="button" id="idBotao"  value="valueBotao" OnClick="parent.location.href='relatorioDadosInscricao.jsp?idCompEquipe=<%=competEquipe.getId()%>'">
+                <!--<input type="button" name="Imprimir" class="btn btn-primary" value="Imprimir" onClick="relatorioCurriculo.jsp?idAtletaCurriculo">-->
+            </div> 
     </body>
 </html>

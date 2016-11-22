@@ -14,17 +14,23 @@ import entidades.Modalidades;
 import entidades.Percurso;
 import entidades.TiposDespesas;
 import interfaces.IDAO;
+import java.io.File;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import net.sf.jasperreports.engine.JasperRunManager;
 
 /**
  *
@@ -139,7 +145,7 @@ public class CompeticaoDAO implements IDAO {
                 c.setColocacao(resultado.getString("colocacao"));
                 c.setPremiacao(resultado.getString("premiacao"));
                 c.setRelato(resultado.getString("relato"));
-                
+                c.setCidade(resultado.getInt("ref_cidade"));
                 competicoes.add(c);
             }
         } catch (Exception e) {
@@ -617,5 +623,44 @@ public class CompeticaoDAO implements IDAO {
             System.out.println("Erro ao somar despesas: " + e);
         }
         return despesaTotal;
+    }
+    
+    public byte[] gerarRelatorioHistorico() {
+        try {
+            Connection conn = new ConexaoBD().getInstance().getConnection();
+            File reportFile = new File("C:/Users/Fernanda Finkler/Documents/NetBeansProjects/CompetitionsWEB/src/java/relatorios/HistoricoEquipe.jasper");
+            Map parameters = new HashMap();
+            byte[] bytes = JasperRunManager.runReportToPdf(reportFile.getPath(), parameters, conn);
+
+            return bytes;
+        } catch (Exception e) {
+            System.out.println("erro ao gerar relatorio: " + e);
+        }
+        return null;
+    }
+    
+    public byte[] gerarRelatorioDadosInscricao(int idComp) {
+        Competicao c = (Competicao) consultarId(idComp);
+        ArrayList<Atleta> equipe = consultarEquipe(c);
+        
+        List<Integer> ids = new ArrayList();
+        
+        for (int i = 0; i < equipe.size(); i++) {
+            ids.add( equipe.get(i).getIdatleta() );
+        }
+        try {
+            Connection conn = new ConexaoBD().getInstance().getConnection();
+            File reportFile = new File("C:/Users/Fernanda Finkler/Documents/NetBeansProjects/CompetitionsWEB/src/java/relatorios/DadosEquipe.jasper");
+            Map parameters = new HashMap();
+            
+            parameters.put("idz",ids );
+            
+            byte[] bytes = JasperRunManager.runReportToPdf(reportFile.getPath(), parameters, conn);
+
+            return bytes;
+        } catch (Exception e) {
+            System.out.println("Erro ao gerar relatório: " + e);
+        }
+        return null;
     }
 }

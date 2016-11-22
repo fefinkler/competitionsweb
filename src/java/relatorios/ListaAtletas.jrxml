@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ListaAtletas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f6a04127-efca-4aaf-8deb-47f0cc4d7a98">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ids" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT atleta.*, cidade.nome as cidade
+FROM atleta, cidade
+WHERE atleta.ref_cidade = cidade.idcidade
+ORDER BY atleta.nome]]>
+	</queryString>
+	<field name="idatleta" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="dtnasc" class="java.sql.Date"/>
+	<field name="rg" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="tiposang" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="endereco" class="java.lang.String"/>
+	<field name="cep" class="java.lang.String"/>
+	<field name="parente" class="java.lang.String"/>
+	<field name="contatoparente" class="java.lang.String"/>
+	<field name="alergias" class="java.lang.String"/>
+	<field name="ref_cidade" class="java.lang.Integer"/>
+	<field name="observacoes" class="java.lang.String"/>
+	<field name="cidade" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="79" uuid="31531f75-b943-4cf3-8ece-ff84f018d448"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Listagem de Atletas]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="27" y="0" width="111" height="20" uuid="ffb9a2ee-9d06-47d0-88f9-48f12808338d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="82" y="0" width="111" height="20" uuid="3714fcf0-d7b7-418f-bba9-c016d3dc87e6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="234" y="0" width="111" height="20" uuid="a63e798f-e1d5-476a-96f2-a989445922b6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Nascimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="0" width="111" height="20" uuid="67165484-2a4c-4dc1-a1a2-7e52d5bd71f3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefone]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="428" y="0" width="100" height="20" uuid="5fdd86af-1527-40f1-a8a2-04edd7f295e8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cidade]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="27" y="0" width="28" height="20" uuid="1497d899-203d-4beb-9109-2d976fcb4a16"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{idatleta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="82" y="0" width="111" height="20" uuid="d76be0b5-543d-4f4d-bda0-d4cea805b908"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="0" width="48" height="20" uuid="c96a2c5a-5338-4ca1-a1dd-01e70aee8d6d"/>
+				<textFieldExpression><![CDATA[$F{dtnasc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="333" y="0" width="111" height="20" uuid="784614e0-74bb-49ea-878a-47ad8764b9dd"/>
+				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="428" y="0" width="100" height="20" uuid="38971b6f-6973-4fc3-b70f-a4f238123b7c"/>
+				<textFieldExpression><![CDATA[$F{cidade}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="34" width="555" height="20" uuid="7bdf8bf7-f949-4853-b74a-c077f264bf20"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Relatório gerado por Team Manager Tool]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

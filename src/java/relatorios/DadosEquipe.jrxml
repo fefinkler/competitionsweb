@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DadosEquipe" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="aca41305-2a83-49e7-b4cf-ebe5bee8bf19">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="1"/>
+	<parameter name="idz" class="java.util.List">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select atleta.*, cidade.nome as cidade, estado.nome as estado, pais.nome as pais
+FROM atleta, cidade, estado, pais
+WHERE atleta.ref_cidade = cidade.idcidade
+AND cidade.ref_estado = estado.idestado
+AND estado.ref_pais = pais.idpais
+AND $X{IN,atleta.idatleta,idz}]]>
+	</queryString>
+	<field name="idatleta" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="dtnasc" class="java.sql.Date"/>
+	<field name="rg" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="tiposang" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="endereco" class="java.lang.String"/>
+	<field name="cep" class="java.lang.String"/>
+	<field name="parente" class="java.lang.String"/>
+	<field name="contatoparente" class="java.lang.String"/>
+	<field name="alergias" class="java.lang.String"/>
+	<field name="ref_cidade" class="java.lang.Integer"/>
+	<field name="observacoes" class="java.lang.String"/>
+	<field name="login" class="java.lang.String"/>
+	<field name="senha" class="java.lang.String"/>
+	<field name="cidade" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="pais" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="91" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="83" uuid="7daaf48b-6d3b-4615-ad96-d0927d13c366"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dados dos Atletas]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="-1" width="573" height="20" uuid="89304a8c-55f4-41ce-a009-8de29d764e88"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[_________________________________________________________________________________________________]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="119" splitType="Stretch">
+			<textField>
+				<reportElement x="309" y="0" width="50" height="20" uuid="06cc9bd3-d56e-4d0e-a7b4-394ac8d9669c"/>
+				<textFieldExpression><![CDATA[$F{dtnasc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="39" y="20" width="77" height="20" uuid="53e76383-d9d1-4d5f-8be3-3ea00bdd2f83"/>
+				<textFieldExpression><![CDATA[$F{rg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="53" y="0" width="165" height="20" uuid="3a5953b7-51ec-47b5-8a19-970e868dcd8b"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="427" y="39" width="126" height="20" uuid="cf635b33-5ae2-4f33-83f7-30012d0c854a"/>
+				<textFieldExpression><![CDATA[$F{pais}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="79" width="464" height="20" uuid="a43c1efa-f994-4265-bf70-44abdc4ceaf2"/>
+				<textFieldExpression><![CDATA[$F{alergias}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="245" y="20" width="80" height="20" uuid="180dad84-cd39-49f2-ae65-5a13c92e7072"/>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="59" width="471" height="20" uuid="e352fa31-79a9-4485-8530-fc10c565c4fc"/>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="479" y="0" width="24" height="20" uuid="321effb1-eba0-408f-9266-656e5d6e5ee6"/>
+				<textFieldExpression><![CDATA[$F{tiposang}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="445" y="20" width="84" height="20" uuid="09110fce-cb70-472c-a8e4-699a41410195"/>
+				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="62" y="39" width="153" height="20" uuid="3a54bdf5-7940-43a0-af64-0a5c5faf66be"/>
+				<textFieldExpression><![CDATA[$F{cidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="262" y="39" width="133" height="20" uuid="2ca2366a-593c-4239-a1ed-89d700d61520"/>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="17" y="0" width="50" height="20" uuid="39da30e8-532b-4c09-a443-63f69cb811d7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="218" y="0" width="88" height="20" uuid="4204e928-7df8-464b-ab4f-cfc02c8d7b7a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Nascimento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="20" width="50" height="20" uuid="42473ee4-c284-4a5b-9d7f-6f5ffc13f3b9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RG:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="218" y="20" width="50" height="20" uuid="afcc374e-d2d4-4f63-bf7a-6d23e684bc0b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="0" width="85" height="20" uuid="ee4ad15b-da1b-447b-98f8-766fea598e26"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Sanguíneo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="20" width="50" height="20" uuid="cb11d227-7814-4064-bf44-338c71add272"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefone:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="59" width="50" height="20" uuid="70193386-003a-4ec3-8a0d-0c0a7b7b637b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-mail:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="39" width="50" height="20" uuid="efd35da2-b061-4254-8199-beb81b3b43ea"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cidade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="39" width="50" height="20" uuid="9669a182-b849-4574-8a63-20e5fcb616c3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[País:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="79" width="50" height="20" uuid="eb787c7c-8f45-4f43-8824-d2b47ed03d34"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alergias:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="219" y="39" width="50" height="20" uuid="8dcd3f69-bfb3-44f2-adb1-c0a45a91f360"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="94" width="573" height="20" uuid="140206d3-51ad-460e-89b4-695ca1024fcc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[_________________________________________________________________________________________________]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="100" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="80" width="555" height="20" uuid="0c2c0a73-da0f-480e-a7f4-db62ac4bd0a3"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Relatório gerado por Team Manager Tool]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="72" splitType="Stretch"/>
+	</summary>
+</jasperReport>

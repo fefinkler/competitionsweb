@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ListaCompeticoes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="43aa4113-8ec6-4d1b-b81d-74818a2fe8a9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nome" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT competicao.*, cidade.nome as cidade, estado.sigla
+FROM competicao, cidade, estado
+WHERE competicao.ref_cidade = cidade.idcidade
+AND cidade.ref_estado = estado.idestado
+AND competicao.nome ilike '%$P!{nome}%']]>
+	</queryString>
+	<field name="idcompeticao" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="dia" class="java.sql.Date"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="ref_cidade" class="java.lang.Integer"/>
+	<field name="localidade" class="java.lang.String"/>
+	<field name="colocacao" class="java.lang.String"/>
+	<field name="premiacao" class="java.lang.String"/>
+	<field name="relato" class="java.lang.String"/>
+	<field name="cidade" class="java.lang.String"/>
+	<field name="sigla" class="java.lang.String"/>
+	<variable name="dia_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{dia}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="79" uuid="943ac155-a81e-4304-a7f6-696f5a2b970e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lista de Competições]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="41" width="43" height="20" uuid="70fe04c0-eb9c-47b0-abf7-126b6ed946ed"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="54" y="41" width="43" height="20" uuid="09fa0856-04eb-4a76-b613-e2eaf450e957"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Título]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="342" y="41" width="43" height="20" uuid="6daa049c-ed54-4dfe-99f2-bce6d65769a3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="413" y="41" width="100" height="20" uuid="5d293d8e-8ec0-437b-a122-78b8009c06b1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Local]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="54" y="0" width="288" height="20" uuid="4b30f5d4-6de6-4f6d-922f-5f4d71184705"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="43" height="20" uuid="34b5854f-52e0-462c-ac78-789990c97f11"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="342" y="0" width="54" height="20" uuid="8a549f7a-f984-40dd-8514-74134bb97d10"/>
+				<textFieldExpression><![CDATA[$F{dia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="513" y="0" width="42" height="20" uuid="5164e693-c772-4eec-af36-e9453366dffb"/>
+				<textFieldExpression><![CDATA[$F{sigla}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="413" y="0" width="82" height="20" uuid="c14493ad-0f79-4d8f-8b89-f1fcd60a494d"/>
+				<textFieldExpression><![CDATA[$F{cidade}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

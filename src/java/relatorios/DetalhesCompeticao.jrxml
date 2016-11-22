@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DetalhesCompeticao" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9455a30f-fecc-4b80-bb0e-024c899955da">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="337"/>
+	<parameter name="situacao" class="java.lang.String"/>
+	<parameter name="distancia" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Fernanda Finkler\\Documents\\NetBeansProjects\\Competitions\\src\\relatorios\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select c.*, ci.nome as cidade, es.sigla as estado, pais.nome as pais
+from competicao c, cidade ci, estado es, pais
+where c.ref_cidade = ci.idcidade AND ci.ref_estado = es.idestado AND es.ref_pais = pais.idpais AND idcompeticao = $P{id}]]>
+	</queryString>
+	<field name="idcompeticao" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="dia" class="java.sql.Date"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="ref_cidade" class="java.lang.Integer"/>
+	<field name="localidade" class="java.lang.String"/>
+	<field name="colocacao" class="java.lang.String"/>
+	<field name="premiacao" class="java.lang.String"/>
+	<field name="relato" class="java.lang.String"/>
+	<field name="cidade" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="pais" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="79" uuid="18afab1c-930b-44ea-a018-2a94b6813369"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalhamento Competição]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="58" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="12" width="555" height="26" forecolor="#0099CC" uuid="4c869be1-95c3-4184-a22b-d3fa0c97776e"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="506" splitType="Stretch">
+			<staticText>
+				<reportElement x="50" y="31" width="66" height="20" uuid="47da8231-f04f-4a6e-92b3-495c10959012"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Localidade:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="116" y="31" width="211" height="20" uuid="463e5ffd-e1e2-40ca-b66e-82915f3a9e78"/>
+				<textFieldExpression><![CDATA[$F{localidade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="50" y="0" width="29" height="20" uuid="d7cd35c1-d017-4b20-a3e2-2281c10001ae"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="0" width="48" height="20" uuid="69bf1256-452b-4df2-97b6-afc731f63496"/>
+				<textFieldExpression><![CDATA[$F{dia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="0" width="52" height="20" uuid="a0a94393-7631-4926-97ea-1e2654cdbc49"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situação:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="232" y="0" width="100" height="20" uuid="56400657-f9e5-4ff6-9832-b57208a08be4"/>
+				<textFieldExpression><![CDATA[$P{situacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="294" y="31" width="100" height="20" uuid="1b593420-4af1-4001-9422-f8d0036b6b9d"/>
+				<textFieldExpression><![CDATA[$F{cidade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="372" y="31" width="10" height="20" uuid="7f932c5d-e9b9-47e8-8ab5-e4ed3bf393b2"/>
+				<text><![CDATA[ - ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="411" y="31" width="100" height="20" uuid="ed19e3ae-33dc-4acc-b084-9a43c65c125b"/>
+				<textFieldExpression><![CDATA[$F{pais}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="31" width="19" height="20" uuid="ad15493c-06d9-4063-ad15-43c83fb50d01"/>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="398" y="31" width="10" height="20" uuid="8f03e02e-f132-47f3-8cc7-439d5038a6ce"/>
+				<text><![CDATA[ - ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="347" width="66" height="20" uuid="e3d16a00-b2fd-4b82-82a0-81079717a80d"/>
+				<textElement>
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Colocação:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="116" y="347" width="143" height="20" uuid="e2624b0f-f5f6-447e-be0a-806e2d705804"/>
+				<textFieldExpression><![CDATA[$F{colocacao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="259" y="347" width="70" height="20" uuid="095d6806-6d39-4a6c-8382-39e80d793535"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Premiação:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="324" y="347" width="181" height="20" uuid="506cdf6a-44d0-4cba-a7ed-a816350ead13"/>
+				<textFieldExpression><![CDATA[$F{premiacao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="50" y="382" width="42" height="20" uuid="e24215eb-b6f6-4670-ab7f-4ba6d519e435"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relato:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="92" y="382" width="419" height="124" uuid="fe25ddc1-379a-4adf-bd4f-d8839b31044e"/>
+				<textFieldExpression><![CDATA[$F{relato}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="50" y="67" width="56" height="20" uuid="601f04a7-146d-4644-b6e9-0b0a7fa7a424"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Percurso:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="0" width="53" height="20" uuid="c622b13a-cef1-4810-9406-940416368998"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Distância:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="408" y="0" width="100" height="20" uuid="06cbb729-1788-4e94-a870-6f36f0a37782"/>
+				<textFieldExpression><![CDATA[$P{distancia}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="116" y="66" width="392" height="21" uuid="cc0f8d08-0d08-4cc9-b042-78a618639d25"/>
+				<subreportParameter name="idcompeticao">
+					<subreportParameterExpression><![CDATA[$F{idcompeticao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "DetalhesCompeticao_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="50" y="197" width="56" height="20" uuid="77fe81da-b6b2-4bd1-abd5-088a7f90757f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Equipe:]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="116" y="197" width="389" height="20" uuid="81ec9b0a-7499-45cf-bd8b-787f5ffde67c"/>
+				<subreportParameter name="idcompeticao">
+					<subreportParameterExpression><![CDATA[$F{idcompeticao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "DetalhesCompeticao_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="50" y="269" width="56" height="20" uuid="616562fa-b91b-4fa0-8832-162b868aa0b4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Despesas:]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="116" y="267" width="389" height="22" uuid="b46dc53e-78d8-495f-bd73-5f24bcc51ea7"/>
+				<subreportParameter name="idcompeticao">
+					<subreportParameterExpression><![CDATA[$F{idcompeticao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "DetalhesCompeticao_subreport3.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="f06a2937-13a6-4e3a-9c17-aef1128e3b19"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Relatório gerado por Team Manager Tool]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

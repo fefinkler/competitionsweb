@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DetalhesAtleta" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a95640fb-1f3d-484a-9157-0993057236aa">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="165"/>
+	<parameter name="possuiLogin" class="java.lang.String"/>
+	<parameter name="qtdeCompeticoes" class="java.lang.Integer"/>
+	<parameter name="atleta" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{atleta}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select a.*, c.nome as cidade, e.sigla as estado, p.nome as pais from atleta a, cidade c, estado e, pais p WHERE a.ref_cidade = c.idcidade AND c.ref_estado = e.idestado AND e.ref_pais = p.idpais AND idatleta = $P{atleta}]]>
+	</queryString>
+	<field name="idatleta" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="dtnasc" class="java.sql.Date"/>
+	<field name="rg" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="tiposang" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="endereco" class="java.lang.String"/>
+	<field name="cep" class="java.lang.String"/>
+	<field name="parente" class="java.lang.String"/>
+	<field name="contatoparente" class="java.lang.String"/>
+	<field name="alergias" class="java.lang.String"/>
+	<field name="ref_cidade" class="java.lang.Integer"/>
+	<field name="observacoes" class="java.lang.String"/>
+	<field name="login" class="java.lang.String"/>
+	<field name="senha" class="java.lang.String"/>
+	<field name="ativo" class="java.lang.Boolean"/>
+	<field name="cidade" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="pais" class="java.lang.String"/>
+	<variable name="dtnasc_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{dtnasc}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="79" uuid="bf0f779e-1b8c-42d6-9db8-a056e47d6893"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informações do Atleta]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="43" splitType="Stretch">
+			<textField>
+				<reportElement x="145" y="15" width="280" height="20" forecolor="#0099CC" uuid="17f99c82-01ce-4ecc-b0e2-0187eb3b2a93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="400" splitType="Stretch">
+			<staticText>
+				<reportElement x="56" y="6" width="57" height="20" uuid="0ea23d48-5f28-4218-8066-205f14bc061f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Nasc.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="6" width="21" height="20" uuid="d757d698-12a4-493c-ac68-dfabd7fb9fb4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RG:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="393" y="6" width="100" height="20" uuid="c6b76b02-4929-41b3-8f3b-430f8545a432"/>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="119" y="5" width="48" height="20" uuid="79a1c5a5-8f2b-4d4b-a734-653b1adbf12f"/>
+				<textFieldExpression><![CDATA[$F{dtnasc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="226" y="5" width="100" height="20" uuid="6c6413bf-5371-47c8-8e83-c1ef0811f427"/>
+				<textFieldExpression><![CDATA[$F{rg}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="364" y="5" width="24" height="20" uuid="461995a0-6ebf-4967-aad9-903f564f6723"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="142" y="42" width="37" height="20" uuid="df880317-e9b0-4f4f-b9ef-65aaa26035c7"/>
+				<textFieldExpression><![CDATA[$F{tiposang}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="56" y="42" width="89" height="20" uuid="9e9249df-67e9-4fe2-a56b-2728fd6b066d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Sanguíneo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="255" y="42" width="238" height="20" uuid="60a0b79a-65c8-4173-af73-2af090d5d7bc"/>
+				<textFieldExpression><![CDATA[$F{alergias}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="201" y="42" width="46" height="20" uuid="4b66523b-9204-4298-8892-db6da2059814"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alergias:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="108" y="78" width="100" height="20" uuid="a85f52a7-22ce-44ed-a0b0-03030bc24443"/>
+				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="56" y="78" width="57" height="20" uuid="4ee06740-bfab-486c-a27a-6134bb0608d1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefone:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="243" y="78" width="250" height="20" uuid="6cc6a8b6-a6f3-486b-b08e-35ed7b476dab"/>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="201" y="78" width="46" height="20" uuid="fcfb5046-ea6e-4252-a52b-c4684ca0be45"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-mail:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="113" y="114" width="213" height="20" uuid="af10edd2-68ba-496c-b953-c39753c48397"/>
+				<textFieldExpression><![CDATA[$F{endereco}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="56" y="114" width="55" height="20" uuid="e06089d4-bff5-401d-999a-8e1d78c72814"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Endereço:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="393" y="114" width="100" height="20" uuid="a02c3ab7-19c1-4150-8880-025f3b7ab500"/>
+				<textFieldExpression><![CDATA[$F{cep}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="364" y="114" width="24" height="20" uuid="08fc718a-8640-4079-a67c-743038368930"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CEP:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="101" y="150" width="100" height="20" uuid="747a28a9-f858-47ef-96bf-f35c27db0109"/>
+				<textFieldExpression><![CDATA[$F{cidade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="56" y="150" width="42" height="20" uuid="3f20ea6e-d611-4dac-9bd1-930badb7b4f2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cidade:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="211" y="150" width="19" height="20" uuid="4d3016fb-ddda-440d-9f31-2e55b9e6e7dd"/>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="227" y="150" width="10" height="20" uuid="7ae39994-23ff-4bd1-a3d9-d0bd3828a23e"/>
+				<text><![CDATA[ - ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="150" width="10" height="20" uuid="a107d01c-8cb8-4a19-83cc-735aa411c30f"/>
+				<text><![CDATA[ - ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="240" y="150" width="100" height="20" uuid="f3fec315-20bc-45db-9121-8a3bab5649f2"/>
+				<textFieldExpression><![CDATA[$F{pais}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="137" y="187" width="110" height="20" uuid="677e7674-177d-4c69-b8dd-1ae8e4078e8a"/>
+				<textFieldExpression><![CDATA[$F{parente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="56" y="187" width="81" height="20" uuid="76e5caed-2e85-4192-91b7-1c97d70a9e1f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parente/Amigo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="335" y="187" width="158" height="20" uuid="fb08d1b6-ee49-45f1-9229-7b2f6e8451f0"/>
+				<textFieldExpression><![CDATA[$F{contatoparente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="187" width="43" height="20" uuid="d914cf17-3707-4d4d-bc89-08bbd78d4f48"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contato:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="224" width="100" height="20" uuid="11641cf7-bbb3-41bf-8aef-3f7394756778"/>
+				<textFieldExpression><![CDATA[$P{possuiLogin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="56" y="224" width="145" height="20" uuid="85dfdb5b-80f4-4514-b262-3546e0c8d94c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Possui acesso ao sistema?]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="137" y="260" width="356" height="99" uuid="1dbb5e26-fae0-49ad-afa6-25ed299507d7"/>
+				<textFieldExpression><![CDATA[$F{observacoes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="56" y="260" width="81" height="20" uuid="456e3eb5-8cc3-443c-811f-def9b8b590ed"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observações:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="470" y="224" width="23" height="20" uuid="d77474e3-3329-41b3-acfe-c26254c3793f"/>
+				<textFieldExpression><![CDATA[$P{qtdeCompeticoes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="294" y="224" width="177" height="20" uuid="a93399bd-b5b0-4be5-b60f-3070f43bd732"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total de Competições pela equipe:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="b5c4f0ad-5a79-4910-8337-665f1e969c04"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Relatório gerado por Team Manager Tool]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

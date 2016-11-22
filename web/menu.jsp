@@ -4,6 +4,7 @@
     Author     : Fernanda Finkler
 --%>
 
+<%@page import="daos.CompeticaoDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -50,7 +51,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="menuCompeticoes.jsp?active=l">Competições</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="cadastroAtletas.jsp">Atletas</a></li>
+                                <li><a href="cadastroAtletas.jsp?active=l">Atletas</a></li>
                                 <li><a href="cadastroLocais.jsp?active=c">Locais</a></li>
                                 <li><a href="cadastroModalidades.jsp">Modalidades</a></li>
                                 <li><a href="cadastroTiposDespesas.jsp">Tipos Despesas</a></li>
@@ -59,7 +60,9 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Relatórios<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="listaModalidades.jsp">Lista Modalidades</a></li>
+                                <li><a href="cadastroAtletas.jsp?active=l">Currículo do Atleta</a></li>
+                                <li><a href="listaModalidades.jsp">Dados Inscrição</a></li>
+                                <li><a href="relatorioHistorico.jsp">Histórico da Equipe</a></li>
                             </ul>
                         </li>                        
                         <li><a href="/CompetitionsWEB/controlador?parametro=logout">Sair</a></li>

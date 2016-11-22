@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import apoio.ConexaoBD;
 import daos.AtletaDAO;
 import daos.CidadeDAO;
 import daos.CompeticaoDAO;
@@ -26,12 +27,20 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -148,6 +157,8 @@ public class controlador extends HttpServlet {
         } else if (request.getParameter("parametro").equals("getDespesas")) {
             String tiposdespesas = new TiposDespesasDAO().obterTiposDespesasCombo();
             response.getWriter().println(tiposdespesas);
+        }  else if (request.getParameter("parametro").equals("relatorioHistorico")) {
+            gerarRelatorioHistorico();
         }
     }
 
@@ -236,10 +247,11 @@ public class controlador extends HttpServlet {
     }
     
     private void cadastrarAtleta() {
+        int id = Integer.parseInt(requisicao.getParameter("id"));
         Atleta a = new Atleta();
-        a.setIdatleta(Integer.parseInt(requisicao.getParameter("id")));
+        a.setIdatleta(id);
         a.setNome(requisicao.getParameter("nome"));
-        a.setAtivo(requisicao.getParameter("ativo") != null);
+        a.setAtivo(requisicao.getParameter("status") != null);
         a.setDtnasc((Date) new CompeticaoDAO().converteData(requisicao.getParameter("datanasc")));
         a.setCpf(requisicao.getParameter("cpf"));
         a.setRg(requisicao.getParameter("rg"));
@@ -620,7 +632,7 @@ public class controlador extends HttpServlet {
     }
     
     private void cadastrarCompeticao() {
-        int id = Integer.parseInt(requisicao.getParameter("id"));
+        int id = Integer.parseInt(requisicao.getParameter("idComp"));
         String nome = requisicao.getParameter("nome");
         Date dia = (Date) new CompeticaoDAO().converteData(requisicao.getParameter("dia"));
         char status = requisicao.getParameter("status").charAt(0);
@@ -761,5 +773,25 @@ public class controlador extends HttpServlet {
         } catch (Exception e) {
             System.out.println("Erro ao encaminhas página.");
         }
+    }
+    
+    private void gerarRelatorioHistorico() {                                             
+        // chamada de relatório, COM parâmetros
+        try {
+            // Compila o relatorio
+            JasperReport relatorio = JasperCompileManager.compileReport(getClass().getResourceAsStream("/java/relatorios/HistóricoEquipe.jrxml"));
+
+            // Mapeia campos de parametros para o relatorio, mesmo que nao existam
+            Map parametros = new HashMap();
+
+            // Executa relatoio
+            JasperPrint impressao = JasperFillManager.fillReport(relatorio, parametros, ConexaoBD.getInstance().getConnection());
+
+            // Exibe resultado em video
+            JasperViewer.viewReport(impressao, false);
+            
+        } catch (Exception e) {
+            System.out.println("Erro ao gerar relatório: " + e);
+        } 
     }
 }

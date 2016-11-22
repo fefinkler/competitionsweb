@@ -106,7 +106,7 @@
         </script>
     </head>
     <body>
-
+        <BR>
         <form class="" id="dadosAtleta" action="/CompetitionsWEB/controlador?parametro=cadastraAtleta" method="post" name="dados">
             <div class="container tab-pane form-horizontal">
 
@@ -123,10 +123,8 @@
                 <div class="form-group">
                     <label for="nome">Situação:</label>&nbsp;
                     <%
-                        char status;
-                        if (atl.isAtivo()) {
-                            status = 't';
-                        } else {
+                        char status = 't';
+                        if (! atl.isAtivo()) {
                             status = 'f';
                         }
                     %>

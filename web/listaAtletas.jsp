@@ -32,24 +32,26 @@
         <div class="table-responsive">
             <table id="table-atletas" class="table table-striped">
                 <thead class="header">
-                <th>ID</th>
-                <th>Nome</th>
+                <th style="width: 20px">ID</th>
+                <th style="width: 230px">Nome</th>
                 <th>Data Nascimento</th>
-                <th>Cidade</th>
-                <th>Telefone</th>
+                <th style="width: 150px">Cidade</th>
+                <th style="width: 130px">Telefone</th>
                 <th>Situação</th>
                 <th>Editar</th>
                 <th>Excluir</th>
+                <th>Currículo</th>
                 </thead>
                 <tfoot class="header">
-                <th>ID</th>
-                <th>Nome</th>
+                <th style="width: 20px">ID</th>
+                <th style="width: 230px">Nome</th>
                 <th>Data Nascimento</th>
-                <th>Cidade</th>
-                <th>Telefone</th>
+                <th style="width: 150px">Cidade</th>
+                <th style="width: 130px">Telefone</th>
                 <th>Situação</th>
                 <th>Editar</th>
                 <th>Excluir</th>
+                <th>Currículo</th>
                 </tfoot>
                 <tbody>
                     <%
@@ -95,6 +97,7 @@
                             }
                         %>
                         <td><a OnClick="return confirm('<%=msg%>')" href="/CompetitionsWEB/controlador?parametro=<%=parametro%>Atleta&id=<%=atletaL.getIdatleta()%>">Excluir</a></td>
+                        <td><a href="relatorioCurriculo.jsp?idAtletaCurriculo=<%=atletaL.getIdatleta()%>">Currículo</a></td>
                     </tr>
                     <%
                         }

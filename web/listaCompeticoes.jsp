@@ -4,6 +4,8 @@
     Author     : Fernanda Finkler
 --%>
 
+<%@page import="daos.CidadeDAO"%>
+<%@page import="entidades.Cidade"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="daos.CompeticaoDAO"%>
 <%@page import="entidades.Competicao"%>
@@ -31,17 +33,19 @@
         <div class="table-responsive">
             <table id="table-competitions" class="table table-striped">
                 <thead class="header">
-                <th>ID</th>
-                <th>Data</th>
-                <th>Nome</th>
+                <th style="width: 20px">ID</th>
+                <th style="width: 150px">Data</th>
+                <th style="width: 230px">Nome</th>
+                <th>Cidade</th>
                 <th>Situação</th>
                 <th>Editar</th>
                 <th>Excluir</th>
                 </thead>
                 <tfoot class="header">
-                <th>ID</th>
-                <th>Data</th>
-                <th>Nome</th>
+                <th style="width: 20px">ID</th>
+                <th style="width: 150px">Data</th>
+                <th style="width: 230px">Nome</th>
+                <th>Cidade</th>
                 <th>Situação</th>
                 <th>Editar</th>
                 <th>Excluir</th>
@@ -51,6 +55,7 @@
                         ArrayList<Object> competicoes = new CompeticaoDAO().consultarTodos();
                         for (int i = 0; i < competicoes.size(); i++) {
                             Competicao competicao = (Competicao) competicoes.get(i);
+                            Cidade cidadeCompet = (Cidade) new CidadeDAO().consultarId(competicao.getCidade());
                             String status = "";
                             if (competicao.getStatus() == 'p') {
                                 status = "Programada";
@@ -74,6 +79,7 @@
                         <td><%=competicao.getId()%></td>
                         <td><%= dia%></td>
                         <td><%=competicao.getNome()%></td>
+                        <td><%=cidadeCompet.getNome()%></td>
                         <td><%= status%></td>
                         <td><a href="/CompetitionsWEB/controlador?parametro=editarCompeticao&id=<%=competicao.getId()%>">Editar</a></td>
                         <td><a OnClick="return confirm('Deseja realmente excluir este registro?')" href="/CompetitionsWEB/controlador?parametro=excluirCompeticao&id=<%=competicao.getId()%>">Excluir</a></td>

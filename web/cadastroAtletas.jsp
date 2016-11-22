@@ -4,6 +4,7 @@
     Author     : Fernanda Finkler
 --%>
 
+<%@page import="entidades.Atleta"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -57,8 +58,8 @@
                 <li class="<%= classCadastroA %>"><a data-toggle="tab" href="#cadastroAtletas">Cadastro</a></li>
             </ul>
             <div class="tab-content">
-                <div id="listaAtletas" class="tab-pane fade <%= classListaA2 %>"><%@include file ="listaAtletas.jsp" %></div>
-                <div id="cadastroAtletas" class="tab-pane fade <%= classCadastroA2 %>"><%@include file ="cadastroAtletas.jsp" %></div>
+                <div id="listaAtletas" class="tab-pane fade <%= classListaA2 %>"><%@include file ="listaAtletas.jsp" %></div> <%-- --%>
+                <div id="cadastroAtletas" class="tab-pane fade <%= classCadastroA2 %>"><%@include file ="infosAtletas.jsp" %></div> <%--  --%>
             </div>
         </div>
     </body>

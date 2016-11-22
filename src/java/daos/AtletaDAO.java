@@ -8,14 +8,20 @@ package daos;
 import apoio.ConexaoBD;
 import entidades.Atleta;
 import interfaces.IDAO;
+import java.io.File;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import net.sf.jasperreports.engine.JasperRunManager;
 
 /**
  *
@@ -429,5 +435,46 @@ public class AtletaDAO implements IDAO {
         }
         return false;
     }
+    
+    public byte[] gerarRelatorioCurriculo(int id) {
+        try {
+            Connection conn = new ConexaoBD().getInstance().getConnection();
+            File reportFile = new File("C:/Users/Fernanda Finkler/Documents/NetBeansProjects/CompetitionsWEB/src/java/relatorios/CurriculoAtleta.jasper");
+            Map parameters = new HashMap();
+            
+            Atleta a = (Atleta) consultarId(id);
+            int idade = calculaIdade(a.getDtnasc());
+            // adiciona parametros
+            //    parametros.put("ids", "SELECT idatleta FROM atleta WHERE idatleta in (" + ids + ")" );
+            parameters.put("idatleta", a.getIdatleta());
+            parameters.put("idade", idade);
+            parameters.put("qtde", contaParticipacoes(a.getIdatleta()));
+            
+            byte[] bytes = JasperRunManager.runReportToPdf(reportFile.getPath(), parameters, conn);
 
+            return bytes;
+        } catch (Exception e) {
+            System.out.println("Erro ao gerar relatório: " + e);
+        }
+        return null;
+    }
+
+    public static int calculaIdade(java.util.Date dataNasc) {
+
+        Calendar dataNascimento = Calendar.getInstance();
+        dataNascimento.setTime(dataNasc);
+        Calendar hoje = Calendar.getInstance();
+
+        int idade = hoje.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR);
+
+        if (hoje.get(Calendar.MONTH) < dataNascimento.get(Calendar.MONTH)) {
+            idade--;
+        } else {
+            if (hoje.get(Calendar.MONTH) == dataNascimento.get(Calendar.MONTH) && hoje.get(Calendar.DAY_OF_MONTH) < dataNascimento.get(Calendar.DAY_OF_MONTH)) {
+                idade--;
+            }
+        }
+
+        return idade;
+    }
 }

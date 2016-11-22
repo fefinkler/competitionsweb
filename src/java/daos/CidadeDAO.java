@@ -126,9 +126,11 @@ public class CidadeDAO implements IDAO {
             c.setNome(resultadoQ.getString("nome"));
             c.setEstado(resultadoQ.getInt("ref_estado"));
             c.setAtivo(resultadoQ.getBoolean("ativo"));
+            System.out.println("cidade: " + c.getNome());
             return c;
         } catch (Exception e) {
             System.out.println("Erro ao consultar cidade: " + e);
+            System.out.println("volta nulo");
             return null;
         }
     }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CurriculoAtleta_subreport1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="88c1824b-b4f4-499f-85be-7bec3be245f5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<parameter name="idatleta" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT c.*, ci.nome, es.sigla, p.sigla FROM competicao c, equipe e, cidade ci, estado es, pais p WHERE c.idcompeticao = e.ref_competicao
+AND c.ref_cidade = ci.idcidade AND ci.ref_estado = es.idestado AND p.idpais = es.ref_pais AND e.ref_atleta = $P{idatleta}]]>
+	</queryString>
+	<field name="idcompeticao" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="dia" class="java.sql.Date"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="ref_cidade" class="java.lang.Integer"/>
+	<field name="localidade" class="java.lang.String"/>
+	<field name="colocacao" class="java.lang.String"/>
+	<field name="premiacao" class="java.lang.String"/>
+	<field name="relato" class="java.lang.String"/>
+	<field name="sigla" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="26" height="20" uuid="a8dc2151-a67f-44ed-8c29-769735ca1fca"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="83" y="0" width="100" height="20" uuid="b4752fad-a66d-4476-9778-fb5702a717b0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Competição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="341" y="0" width="100" height="20" uuid="35294110-c700-4e43-ab41-06e86d04ccb5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colocação:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="48" height="20" uuid="80d1ed1a-f53c-4948-9608-f3cb3a67c937"/>
+				<textFieldExpression><![CDATA[$F{dia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="0" width="270" height="20" uuid="5ad04c70-2ffe-402f-98ce-f8cf728fa354"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="341" y="0" width="100" height="20" uuid="4863f63f-209e-4b5e-873f-bab3ed65cd54"/>
+				<textFieldExpression><![CDATA[$F{colocacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
