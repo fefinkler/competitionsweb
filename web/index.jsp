@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
         <!--<link href="css/login.css" rel="stylesheet" type="text/css" />-->
         <link href="boots/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="boots/css/signin.css" rel="stylesheet" type="text/css" />
@@ -39,4 +39,5 @@
 -- Limpar campos PRETTO -- não funcionou
 -- Campo de Busca OKK DataTables
 -- colocar vazio ("") na inicialização das Strings das Entidades OKK
+-- campos obrigatórios DESTACAR!!!
 -->

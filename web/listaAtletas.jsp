@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
 
         <script type="text/javascript" src="boots/js/jquery.min.js"></script>        
         <script type="text/javascript" src="boots/js/datatables.net/js/jquery.dataTables.js"></script>        
@@ -97,7 +97,7 @@
                             }
                         %>
                         <td><a OnClick="return confirm('<%=msg%>')" href="/CompetitionsWEB/controlador?parametro=<%=parametro%>Atleta&id=<%=atletaL.getIdatleta()%>">Excluir</a></td>
-                        <td><a href="relatorioCurriculo.jsp?idAtletaCurriculo=<%=atletaL.getIdatleta()%>">Currículo</a></td>
+                        <td><a href="relatorioCurriculo.jsp?idAtletaCurriculo=<%=atletaL.getIdatleta()%>" target="blank">Currículo</a></td>
                     </tr>
                     <%
                         }

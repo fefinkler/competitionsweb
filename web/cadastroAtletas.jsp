@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html" charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
         <!-- Bootstrap core CSS -->
         <link href="boots/css/bootstrap.min.css" rel="stylesheet">
         <link href="boots/css/sweetalert.css" rel="stylesheet" type="text/css"/>

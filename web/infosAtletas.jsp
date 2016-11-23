@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
         <!-- importacao do arquivo de validacao -->
         <script src="boots/js/jquery.min.js" type="text/javascript"></script>
         <script src="boots/js/validacao51.js" type="text/javascript"></script>

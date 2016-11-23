@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html" charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
         <!--<link href="css/menu.css" rel="stylesheet" type="text/css" />-->
         <!-- Bootstrap core CSS -->
         <link href="boots/css/bootstrap.min.css" rel="stylesheet">
@@ -62,7 +62,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="cadastroAtletas.jsp?active=l">Currículo do Atleta</a></li>
                                 <li><a href="listaModalidades.jsp">Dados Inscrição</a></li>
-                                <li><a href="relatorioHistorico.jsp">Histórico da Equipe</a></li>
+                                <li><a href="relatorioHistorico.jsp" target="blank">Histórico da Equipe</a></li>
                             </ul>
                         </li>                        
                         <li><a href="/CompetitionsWEB/controlador?parametro=logout">Sair</a></li>

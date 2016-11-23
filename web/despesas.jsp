@@ -118,8 +118,8 @@
                         </thead>
                         <%                            
                             ArrayList<Despesa> despesas = new CompeticaoDAO().consultarDespesa(competi);
-                            for (int i = 0; i < despesas.size(); i++) {
-                                Despesa d = (Despesa) despesas.get(i);
+                            for (int y = 0; y < despesas.size(); y++) {
+                                Despesa d = (Despesa) despesas.get(y);
                                 TiposDespesas td = (TiposDespesas) new TiposDespesasDAO().consultarId(d.getDespesa());
 
                         %>
